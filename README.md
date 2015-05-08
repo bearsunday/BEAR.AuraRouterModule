@@ -13,7 +13,7 @@ composer require bear/aura-router-module
 
 ### Module install
 
-```
+```php
 use Ray\Di\AbstractModule;
 use BEAR\Package\Provide\Router\AuraRouterModule;
 
@@ -22,6 +22,7 @@ class AppModule extends AbstractModule
     protected function configure()
     {
         $this->install(new AuraRouterModule);
+    }
 }
 ```
 
