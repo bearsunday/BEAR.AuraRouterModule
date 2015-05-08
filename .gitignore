@@ -1,0 +1,11 @@
+.DS_Store
+.idea
+cache.properties
+composer.phar
+composer.lock
+vendor
+build
+preload.php
+tests/stdout.log
+*.log
+tmp

@@ -1,0 +1,27 @@
+{
+    "name": "bear/aura-router-module",
+    "description": "Aura Router v2 module for BEAR.Package",
+    "keywords": [
+        "BEAR.Sunday",
+        "Router",
+        "Aura"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Akihito Koriyama",
+            "email": "akihito.koriyama@gmail.com"
+        }
+    ],
+    "require": {
+        "bear/package": "~1.0@dev",
+        "aura/web": "~2.0"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "BEAR\\Package\\": "src/"
+        }
+    }
+}
