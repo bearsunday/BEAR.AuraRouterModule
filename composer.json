@@ -14,8 +14,11 @@
         }
     ],
     "require": {
-        "bear/package": "~1.0@dev",
+        "aura/router": "~2.0",
         "aura/web": "~2.0"
+    },
+    "require": {
+        "bear/package": "~1.0@dev"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
