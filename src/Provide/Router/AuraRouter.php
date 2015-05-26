@@ -88,17 +88,19 @@ class AuraRouter implements RouterInterface
     private function getRequest(array $globals, array $server, Route $route)
     {
         $request = new RouterMatch;
+
         $params = $route->params;
         // path
         $path = substr($params['path'], 0, 1) === '/' ? $this->schemeHost . $params['path'] : $params['path'];
         $request->path = $path;
         // query
         unset($params['path']);
-        $params += ($server['REQUEST_METHOD'] === 'GET') ? $globals['_GET'] : $globals['_POST'];
+        list($method, $query) = $this->httpMethodParams->get($server, $globals['_GET'], $globals['_POST']);
+        $params += $query;
         unset($params[self::METHOD_FILED]);
         $request->query = $params;
         // method
-        $request->method = strtolower((new Method($server, $globals['_POST'], self::METHOD_FILED))->get());
+        $request->method = $method;
 
         return $request;
     }
