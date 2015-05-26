@@ -29,7 +29,8 @@ class AuraRouterTest extends \PHPUnit_Framework_TestCase
             ->addPost(null, '/blog/{id}')
             ->addValues(['path'  => '/blog']);
         $globals = [
-            '_POST' => ['title' => 'hello']
+            '_POST' => ['title' => 'hello'],
+            '_GET' => []
         ];
         $server = [
             'REQUEST_METHOD' => 'POST',
@@ -47,7 +48,8 @@ class AuraRouterTest extends \PHPUnit_Framework_TestCase
             ->addPost(null, '/blog/{id}')
             ->addValues(['path'  => 'blog']);
         $globals = [
-            '_POST' => [AuraRouter::METHOD_FILED => 'PUT', 'title' => 'hello']
+            '_POST' => [AuraRouter::METHOD_FILED => 'PUT', 'title' => 'hello'],
+            '_GET' => []
         ];
         $server = [
             'REQUEST_METHOD' => 'POST',
@@ -64,7 +66,8 @@ class AuraRouterTest extends \PHPUnit_Framework_TestCase
             ->addPost(null, '/blog/{id}')
             ->addValues(['path'  => 'blog']);
         $globals = [
-            '_POST' => [AuraRouter::METHOD_FILED => 'PUT']
+            '_POST' => [AuraRouter::METHOD_FILED => 'PUT'],
+            '_GET' => []
         ];
         $server = [
             'REQUEST_METHOD' => 'POST',
@@ -72,7 +75,7 @@ class AuraRouterTest extends \PHPUnit_Framework_TestCase
             'HTTP_X_HTTP_METHOD_OVERRIDE' => 'DELETE'
         ];
         $request = $this->auraRouter->match($globals, $server);
-        $this->assertSame('delete', $request->method);
+        $this->assertSame('put', $request->method);
         $this->assertSame(['id' => 'PC6001'], $request->query);
     }
 
@@ -82,7 +85,8 @@ class AuraRouterTest extends \PHPUnit_Framework_TestCase
             ->addGet(null, '/blog/{id}')
             ->addValues(['path'  => 'blog']);
         $globals = [
-            '_POST' => []
+            '_POST' => [],
+            '_GET' => []
         ];
         $server = [
             'REQUEST_METHOD' => 'GET',
