@@ -89,7 +89,8 @@ class AuraRouter implements RouterInterface
     {
         $request = new RouterMatch;
 
-        $params = array_diff_key($route->params, ['action' => null]);
+        $params = $route->params;
+        unset($params['action']);
         // path
         $path = substr($params['path'], 0, 1) === '/' ? $this->schemeHost . $params['path'] : $params['path'];
         $request->path = $path;
