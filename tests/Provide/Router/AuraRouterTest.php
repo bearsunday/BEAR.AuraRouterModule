@@ -23,10 +23,20 @@ class AuraRouterTest extends \PHPUnit_Framework_TestCase
         $this->auraRouter = new AuraRouter($this->routerAdapter, 'page://self', new HttpMethodParams);
     }
 
-    public function testMatch()
+    public function testMatchProvider() {
+        return [ 
+            'nameless ' => [null], 
+            'with name' => ['/blog'],
+        ];
+    }
+
+    /**
+     * @dataProvider testMatchProvider
+     */
+    public function testMatch($name)
     {
         $this->routerAdapter
-            ->addPost(null, '/blog/{id}')
+            ->addPost($name, '/blog/{id}')
             ->addValues(['path'  => '/blog']);
         $globals = [
             '_POST' => ['title' => 'hello'],
