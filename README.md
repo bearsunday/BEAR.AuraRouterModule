@@ -1,5 +1,7 @@
 # BEAR.AuraRouterModule
 
+[![Build Status](https://travis-ci.org/bearsunday/BEAR.AuraRouterModule.svg?branch=1.x)](https://travis-ci.org/bearsunday/BEAR.AuraRouterModule)
+
 This is the [Aura Router (v2)](https://github.com/auraphp/Aura.Router/tree/2.x) Module for BEAR.Sunday.
 
 
