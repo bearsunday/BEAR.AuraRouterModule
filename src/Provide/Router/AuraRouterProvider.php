@@ -35,7 +35,7 @@ class AuraRouterProvider implements ProviderInterface
     public function __construct(AbstractAppMeta $appMeta, $schemeHost)
     {
         $this->schemeHost = $schemeHost;
-        $router = new Router(new RouteCollection(new RouteFactory), new Generator);
+        $router = new AuraRoute(new RouteCollection(new RouteFactory), new Generator);
         $routeFile = $appMeta->appDir . '/var/conf/aura.route.php';
         include $routeFile;
         $this->router = $router;
