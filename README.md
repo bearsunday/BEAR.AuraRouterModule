@@ -34,7 +34,7 @@ place router script file at `var/conf/aura.route.php`.
 
 ```php
 <?php
-/** @var $router \Aura\Router\RouteCollection */
+/** @var $router \BEAR\Package\Provide\Router\AuraRouterRoute */
 
-$router->add('/weekday', '/weekday/{year}/{month}/{day}')->addValues(['path' => '/weekday']);
+$router->route('/weekday', '/weekday/{year}/{month}/{day}');
 ```
