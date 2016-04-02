@@ -7,12 +7,12 @@
 namespace BEAR\Package\Provide\Router;
 
 use Aura\Router\Exception;
-use Aura\Router\Router as AuraRouter;
+use Aura\Router\Router as AuraRouterRouter;
 
 /**
- * A extented router for BEAR.Sunday
+ * An extended router for BEAR.Sunday
  */
-class AuraRoute extends AuraRouter
+class AuraRoute extends AuraRouterRouter
 {
     /**
      * Adds a route
