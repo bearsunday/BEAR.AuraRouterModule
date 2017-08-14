@@ -9,3 +9,5 @@ preload.php
 tests/stdout.log
 *.log
 tmp
+
+.php_cs.cache
