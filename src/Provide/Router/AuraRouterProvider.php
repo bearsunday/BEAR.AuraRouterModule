@@ -6,12 +6,12 @@
  */
 namespace BEAR\Package\Provide\Router;
 
-use Aura\Router\Generator;
-use Aura\Router\RouteCollection;
-use Aura\Router\RouteFactory;
+
 use Aura\Router\Router;
 use BEAR\AppMeta\AbstractAppMeta;
 use BEAR\Sunday\Annotation\DefaultSchemeHost;
+use Ray\Di\Di\Inject;
+use Ray\Di\Di\Named;
 use Ray\Di\ProviderInterface;
 
 class AuraRouterProvider implements ProviderInterface
@@ -22,23 +22,33 @@ class AuraRouterProvider implements ProviderInterface
     private $router;
 
     /**
-     * @var
+     * @var string
      */
     private $schemeHost;
 
     /**
-     * @param AbstractAppMeta $appMeta
-     * @param string          $schemeHost
+     * @var AbstractAppMeta
+     */
+    private $appMeta;
+
+    /**
+     * @param AuraRoute $router
      *
+     * @Inject
+     * @Named("aura_router")
+     */
+    public function setRouter($router)
+    {
+        $this->router = $router;
+    }
+
+    /**
      * @DefaultSchemeHost("schemeHost")
      */
     public function __construct(AbstractAppMeta $appMeta, $schemeHost)
     {
         $this->schemeHost = $schemeHost;
-        $router = new AuraRoute(new RouteCollection(new RouteFactory), new Generator);
-        $routeFile = $appMeta->appDir . '/var/conf/aura.route.php';
-        include $routeFile;
-        $this->router = $router;
+        $this->appMeta = $appMeta;
     }
 
     /**
@@ -46,6 +56,10 @@ class AuraRouterProvider implements ProviderInterface
      */
     public function get()
     {
+        $routeFile = $this->appMeta->appDir . '/var/conf/aura.route.php';
+        $router = $this->router; // global
+        include $routeFile;
+
         return new AuraRouter($this->router, $this->schemeHost, new HttpMethodParams);
     }
 }
