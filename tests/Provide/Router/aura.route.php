@@ -1,4 +1,8 @@
 <?php
+/**
+ * This file is part of the BEAR.AuraRouterModule package.
+ *
+ * @license http://opensource.org/licenses/MIT MIT
+ */
 
-/* @var $router \Aura\Router\RouteCollection */
 $router->add('/user', '/user/{id}');
