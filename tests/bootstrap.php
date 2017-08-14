@@ -1,6 +1,10 @@
 <?php
+/**
+ * This file is part of the BEAR.AuraRouterModule package.
+ *
+ * @license http://opensource.org/licenses/MIT MIT
+ */
 
-// loader
 $loader = require dirname(__DIR__) . '/vendor/autoload.php';
 /* @var $loader \Composer\Autoload\ClassLoader */
 $loader->addPsr4('BEAR\Package\\', __DIR__ . '/Fake');

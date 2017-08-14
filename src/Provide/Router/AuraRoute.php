@@ -1,12 +1,11 @@
 <?php
 /**
- * This file is part of the BEAR.AuraRouterModule package
+ * This file is part of the BEAR.AuraRouterModule package.
  *
  * @license http://opensource.org/licenses/MIT MIT
  */
 namespace BEAR\Package\Provide\Router;
 
-use Aura\Router\Exception;
 use Aura\Router\Router as AuraRouterRouter;
 
 /**

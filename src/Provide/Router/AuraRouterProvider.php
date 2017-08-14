@@ -1,11 +1,10 @@
 <?php
 /**
- * This file is part of the BEAR.AuraRouterModule package
+ * This file is part of the BEAR.AuraRouterModule package.
  *
  * @license http://opensource.org/licenses/MIT MIT
  */
 namespace BEAR\Package\Provide\Router;
-
 
 use Aura\Router\Router;
 use BEAR\AppMeta\AbstractAppMeta;
@@ -32,6 +31,15 @@ class AuraRouterProvider implements ProviderInterface
     private $appMeta;
 
     /**
+     * @DefaultSchemeHost("schemeHost")
+     */
+    public function __construct(AbstractAppMeta $appMeta, $schemeHost)
+    {
+        $this->schemeHost = $schemeHost;
+        $this->appMeta = $appMeta;
+    }
+
+    /**
      * @param AuraRoute $router
      *
      * @Inject
@@ -40,15 +48,6 @@ class AuraRouterProvider implements ProviderInterface
     public function setRouter($router)
     {
         $this->router = $router;
-    }
-
-    /**
-     * @DefaultSchemeHost("schemeHost")
-     */
-    public function __construct(AbstractAppMeta $appMeta, $schemeHost)
-    {
-        $this->schemeHost = $schemeHost;
-        $this->appMeta = $appMeta;
     }
 
     /**

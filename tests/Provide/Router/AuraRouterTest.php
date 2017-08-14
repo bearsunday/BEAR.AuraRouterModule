@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * This file is part of the BEAR.AuraRouterModule package.
+ *
+ * @license http://opensource.org/licenses/MIT MIT
+ */
 namespace BEAR\Package\Provide\Router;
 
 use Aura\Router\RouterFactory;
@@ -23,9 +27,10 @@ class AuraRouterTest extends \PHPUnit_Framework_TestCase
         $this->auraRouter = new AuraRouter($this->routerAdapter, 'page://self', new HttpMethodParams);
     }
 
-    public function testMatchProvider() {
-        return [ 
-            'nameless ' => [null], 
+    public function testMatchProvider()
+    {
+        return [
+            'nameless ' => [null],
             'with name' => ['/blog'],
         ];
     }
@@ -37,7 +42,7 @@ class AuraRouterTest extends \PHPUnit_Framework_TestCase
     {
         $this->routerAdapter
             ->addPost($name, '/blog/{id}')
-            ->addValues(['path'  => '/blog']);
+            ->addValues(['path' => '/blog']);
         $globals = [
             '_POST' => ['title' => 'hello'],
             '_GET' => []
@@ -56,7 +61,7 @@ class AuraRouterTest extends \PHPUnit_Framework_TestCase
     {
         $this->routerAdapter
             ->addPost(null, '/blog/{id}')
-            ->addValues(['path'  => 'blog']);
+            ->addValues(['path' => 'blog']);
         $globals = [
             '_POST' => [AuraRouter::METHOD_FILED => 'PUT', 'title' => 'hello'],
             '_GET' => []
@@ -74,7 +79,7 @@ class AuraRouterTest extends \PHPUnit_Framework_TestCase
     {
         $this->routerAdapter
             ->addPost(null, '/blog/{id}')
-            ->addValues(['path'  => 'blog']);
+            ->addValues(['path' => 'blog']);
         $globals = [
             '_POST' => [AuraRouter::METHOD_FILED => 'PUT'],
             '_GET' => []
@@ -93,7 +98,7 @@ class AuraRouterTest extends \PHPUnit_Framework_TestCase
     {
         $this->routerAdapter
             ->addGet(null, '/blog/{id}')
-            ->addValues(['path'  => 'blog']);
+            ->addValues(['path' => 'blog']);
         $globals = [
             '_POST' => [],
             '_GET' => []

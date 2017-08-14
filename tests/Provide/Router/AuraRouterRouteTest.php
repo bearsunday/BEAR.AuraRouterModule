@@ -1,11 +1,14 @@
 <?php
-
+/**
+ * This file is part of the BEAR.AuraRouterModule package.
+ *
+ * @license http://opensource.org/licenses/MIT MIT
+ */
 namespace BEAR\Package\Provide\Router;
 
 use Aura\Router\Generator;
 use Aura\Router\RouteCollection;
 use Aura\Router\RouteFactory;
-use Aura\Router\RouterFactory;
 
 class AuraRouterRouteTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,7 +22,8 @@ class AuraRouterRouteTest extends \PHPUnit_Framework_TestCase
         $this->route = new AuraRoute(new RouteCollection(new RouteFactory), new Generator);
     }
 
-    public function testRoute() {
+    public function testRoute()
+    {
         $this->route->route('/user', '/user/{id}');
         $routes = $this->route->getRoutes();
         $expect = [
