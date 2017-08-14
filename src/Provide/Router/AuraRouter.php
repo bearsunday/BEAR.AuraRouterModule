@@ -9,7 +9,6 @@ namespace BEAR\Package\Provide\Router;
 use Aura\Router\Exception\RouteNotFound;
 use Aura\Router\Route;
 use Aura\Router\Router;
-use Aura\Web\Request\Method;
 use BEAR\Sunday\Annotation\DefaultSchemeHost;
 use BEAR\Sunday\Extension\Router\RouterInterface;
 use BEAR\Sunday\Extension\Router\RouterMatch;
