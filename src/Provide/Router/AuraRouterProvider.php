@@ -8,6 +8,7 @@ namespace BEAR\Package\Provide\Router;
 
 use Aura\Router\Router;
 use BEAR\AppMeta\AbstractAppMeta;
+use BEAR\Package\Provide\Router\Exception\InvalidRouterFilePathException;
 use BEAR\Sunday\Annotation\DefaultSchemeHost;
 use Ray\Di\Di\Inject;
 use Ray\Di\Di\Named;
@@ -31,6 +32,11 @@ class AuraRouterProvider implements ProviderInterface
     private $appMeta;
 
     /**
+     * @var string
+     */
+    private $routerFile;
+
+    /**
      * @DefaultSchemeHost("schemeHost")
      */
     public function __construct(AbstractAppMeta $appMeta, $schemeHost)
@@ -43,11 +49,12 @@ class AuraRouterProvider implements ProviderInterface
      * @param AuraRoute $router
      *
      * @Inject
-     * @Named("aura_router")
+     * @Named("router=aura_router,routerFile=aura_router_file")
      */
-    public function setRouter($router)
+    public function setRouter($router, $routerFile = null)
     {
         $this->router = $router;
+        $this->routerFile = ($routerFile === null) ? $this->appMeta->appDir . '/var/conf/aura.route.php' : $routerFile;
     }
 
     /**
@@ -55,9 +62,11 @@ class AuraRouterProvider implements ProviderInterface
      */
     public function get()
     {
-        $routeFile = $this->appMeta->appDir . '/var/conf/aura.route.php';
         $router = $this->router; // global
-        include $routeFile;
+        if (! file_exists($this->routerFile)) {
+            throw new InvalidRouterFilePathException($this->routerFile);
+        }
+        include $this->routerFile;
 
         return new AuraRouter($this->router, $this->schemeHost, new HttpMethodParams);
     }
