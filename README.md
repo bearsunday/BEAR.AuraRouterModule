@@ -23,7 +23,7 @@ class AppModule extends AbstractModule
 {
     protected function configure()
     {
-        $this->install(new AuraRouterModule);
+        $this->install(new AuraRouterModule(/path/to/aura.route.php');
     }
 }
 ```
@@ -34,7 +34,8 @@ place router script file at `var/conf/aura.route.php`.
 
 ```php
 <?php
-/** @var $router \BEAR\Package\Provide\Router\AuraRouterRoute */
+/* @var $router \BEAR\Package\Provide\Router\AuraRoute */
+/* @var $schemeHost string */
 
 $router->route('/weekday', '/weekday/{year}/{month}/{day}');
 ```
