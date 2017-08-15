@@ -1,17 +1,17 @@
 <?php
 /**
- * This file is part of the BEAR.AuraRouterModule package
+ * This file is part of the BEAR.AuraRouterModule package.
  *
  * @license http://opensource.org/licenses/MIT MIT
  */
 namespace BEAR\Package\Provide\Router;
 
-use Aura\Router\Generator;
-use Aura\Router\RouteCollection;
-use Aura\Router\RouteFactory;
 use Aura\Router\Router;
 use BEAR\AppMeta\AbstractAppMeta;
+use BEAR\Package\Provide\Router\Exception\InvalidRouterFilePathException;
 use BEAR\Sunday\Annotation\DefaultSchemeHost;
+use Ray\Di\Di\Inject;
+use Ray\Di\Di\Named;
 use Ray\Di\ProviderInterface;
 
 class AuraRouterProvider implements ProviderInterface
@@ -22,23 +22,39 @@ class AuraRouterProvider implements ProviderInterface
     private $router;
 
     /**
-     * @var
+     * @var string
      */
     private $schemeHost;
 
     /**
-     * @param AbstractAppMeta $appMeta
-     * @param string          $schemeHost
-     *
+     * @var AbstractAppMeta
+     */
+    private $appMeta;
+
+    /**
+     * @var string
+     */
+    private $routerFile;
+
+    /**
      * @DefaultSchemeHost("schemeHost")
      */
     public function __construct(AbstractAppMeta $appMeta, $schemeHost)
     {
         $this->schemeHost = $schemeHost;
-        $router = new AuraRoute(new RouteCollection(new RouteFactory), new Generator);
-        $routeFile = $appMeta->appDir . '/var/conf/aura.route.php';
-        include $routeFile;
+        $this->appMeta = $appMeta;
+    }
+
+    /**
+     * @param AuraRoute $router
+     *
+     * @Inject
+     * @Named("router=aura_router,routerFile=aura_router_file")
+     */
+    public function setRouter($router, $routerFile = null)
+    {
         $this->router = $router;
+        $this->routerFile = ($routerFile === null) ? $this->appMeta->appDir . '/var/conf/aura.route.php' : $routerFile;
     }
 
     /**
@@ -46,6 +62,12 @@ class AuraRouterProvider implements ProviderInterface
      */
     public function get()
     {
+        $router = $this->router; // global
+        if (! file_exists($this->routerFile)) {
+            throw new InvalidRouterFilePathException($this->routerFile);
+        }
+        include $this->routerFile;
+
         return new AuraRouter($this->router, $this->schemeHost, new HttpMethodParams);
     }
 }

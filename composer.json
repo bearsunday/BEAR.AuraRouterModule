@@ -14,17 +14,22 @@
         }
     ],
     "require": {
-        "aura/router": "~2.0",
-        "aura/web": "~2.0"
+        "aura/router": "^2.0"
     },
     "require-dev": {
-        "bear/package": "~1.0@dev"
+        "bear/package": "^1.1",
+        "phpunit/phpunit": "^5.7"
+
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "BEAR\\Package\\": "src/"
         }
+    },
+    "scripts" :{
+        "test": ["@cs", "phpunit"],
+        "coverage": ["php -dzend_extension=xdebug.so ./vendor/bin/phpunit --coverage-text --coverage-html=build/coverage"],
+        "cs": ["php-cs-fixer fix -v --dry-run", "phpcs --standard=./phpcs.xml src"],
+        "cs-fix": ["php-cs-fixer fix -v", "phpcbf src"]
     }
 }
