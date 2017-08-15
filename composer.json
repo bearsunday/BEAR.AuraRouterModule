@@ -17,7 +17,7 @@
         "aura/router": "^2.0"
     },
     "require-dev": {
-        "bear/package": "^1.2",
+        "bear/package": "^1.1",
         "phpunit/phpunit": "^5.7"
 
     },
