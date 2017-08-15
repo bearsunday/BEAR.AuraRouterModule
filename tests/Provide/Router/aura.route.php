@@ -4,5 +4,4 @@
  *
  * @license http://opensource.org/licenses/MIT MIT
  */
-
 $router->add('/user', '/user/{id}');
