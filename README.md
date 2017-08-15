@@ -23,7 +23,7 @@ class AppModule extends AbstractModule
 {
     protected function configure()
     {
-        $this->install(new AuraRouterModule(/path/to/aura.route.php');
+        $this->install(new AuraRouterModule('/path/to/aura.route.php');
     }
 }
 ```
