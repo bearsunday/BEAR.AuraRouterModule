@@ -6,12 +6,15 @@
  */
 namespace BEAR\Package\Provide\Router;
 
+use Aura\Router\Generator;
+use Aura\Router\RouteCollection;
+use Aura\Router\RouteFactory;
 use Aura\Router\RouterFactory;
 
 class AuraRouterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Aura\Router\RouteCollection
+     * @var AuraRoute
      */
     private $routerAdapter;
 
@@ -23,29 +26,20 @@ class AuraRouterTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->routerAdapter = (new RouterFactory)->newInstance();
+        $this->routerAdapter = new AuraRoute(
+            new RouteCollection(new RouteFactory),
+            new Generator,
+            null
+        );
         $this->auraRouter = new AuraRouter($this->routerAdapter, 'page://self', new HttpMethodParams);
     }
 
-    public function testMatchProvider()
+    public function testMatch()
     {
-        return [
-            'nameless ' => [null],
-            'with name' => ['/blog'],
-        ];
-    }
-
-    /**
-     * @dataProvider testMatchProvider
-     */
-    public function testMatch($name)
-    {
-        $this->routerAdapter
-            ->addPost($name, '/blog/{id}')
-            ->addValues(['path' => '/blog']);
+        $this->routerAdapter->route('/blog', '/blog/{id}');
         $globals = [
-            '_POST' => ['title' => 'hello'],
-            '_GET' => []
+            '_GET' => [],
+            '_POST' => ['title' => 'hello']
         ];
         $server = [
             'REQUEST_METHOD' => 'POST',
@@ -57,11 +51,41 @@ class AuraRouterTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(['id' => 'PC6001', 'title' => 'hello'], $request->query);
     }
 
+    public function testMatchInvalidToken()
+    {
+        $this->routerAdapter->route('/blog', '/blog/{id}')->addTokens(['id' => '\d+']);
+        $globals = [
+            '_GET' => [],
+            '_POST' => []
+        ];
+        $server = [
+            'REQUEST_METHOD' => 'POST',
+            'REQUEST_URI' => 'http://localhost/blog/PC6001'
+        ];
+        $request = $this->auraRouter->match($globals, $server);
+        $this->assertFalse($request);
+    }
+
+    public function testMatchValidToken()
+    {
+        $this->routerAdapter->route('/blog', '/blog/{id}')->addTokens(['id' => '\d+']);
+        $globals = [
+            '_GET' => [],
+            '_POST' => ['title' => 'hello']
+        ];
+        $server = [
+            'REQUEST_METHOD' => 'POST',
+            'REQUEST_URI' => 'http://localhost/blog/1'
+        ];
+        $request = $this->auraRouter->match($globals, $server);
+        $this->assertSame('page://self/blog', $request->path);
+        $this->assertSame(['id' => '1', 'title' => 'hello'], $request->query);
+    }
+
+
     public function testMethodOverrideField()
     {
-        $this->routerAdapter
-            ->addPost(null, '/blog/{id}')
-            ->addValues(['path' => 'blog']);
+        $this->routerAdapter->route('/blog', '/blog/{id}');
         $globals = [
             '_POST' => [AuraRouter::METHOD_FILED => 'PUT', 'title' => 'hello'],
             '_GET' => []
@@ -77,9 +101,7 @@ class AuraRouterTest extends \PHPUnit_Framework_TestCase
 
     public function testMethodOverrideHeader()
     {
-        $this->routerAdapter
-            ->addPost(null, '/blog/{id}')
-            ->addValues(['path' => 'blog']);
+        $this->routerAdapter->route('/blog', '/blog/{id}');
         $globals = [
             '_POST' => [AuraRouter::METHOD_FILED => 'PUT'],
             '_GET' => []
@@ -96,9 +118,7 @@ class AuraRouterTest extends \PHPUnit_Framework_TestCase
 
     public function testNotMatch()
     {
-        $this->routerAdapter
-            ->addGet(null, '/blog/{id}')
-            ->addValues(['path' => 'blog']);
+        $this->routerAdapter->route('/blog', '/blog/{id}');
         $globals = [
             '_POST' => [],
             '_GET' => []
