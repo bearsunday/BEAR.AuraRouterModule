@@ -22,8 +22,6 @@ class AuraRouterModuleTest extends \PHPUnit_Framework_TestCase
         $module = (new AuraRouterModule(null, new AppModule));
         $module->install(new AppMetaModule(new AppMeta('FakeVendor\HelloWorld')));
         $injector = new Injector($module);
-        $router = $injector->getInstance(RouterInterface::class);
-        $this->assertInstanceOf(RouterCollection::class, $router);
         $auraRouter = $injector->getInstance(RouterInterface::class, 'primary_router');
         $this->assertInstanceOf(AuraRouter::class, $auraRouter);
 
@@ -47,6 +45,40 @@ class AuraRouterModuleTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('post', $request->method);
         $this->assertSame('page://self/blog', $request->path);
         $this->assertSame(['id' => 'PC6001', 'title' => 'hello'], $request->query);
+    }
+
+    /**
+     * @depends testGetInstance
+     */
+    public function testRouteWithTokenSuccess(AuraRouter $auraRouter)
+    {
+        $globals = [
+            '_GET' => [],
+            '_POST' => []
+        ];
+        $server = [
+            'REQUEST_METHOD' => 'POST',
+            'REQUEST_URI' => 'http://localhost/user/bear'
+        ];
+        $request = $auraRouter->match($globals, $server);
+        $this->assertSame(['name' => 'bear'], $request->query);
+    }
+
+    /**
+     * @depends testGetInstance
+     */
+    public function testRouteWithTokenFailure(AuraRouter $auraRouter)
+    {
+        $globals = [
+            '_GET' => [],
+            '_POST' => []
+        ];
+        $server = [
+            'REQUEST_METHOD' => 'POST',
+            'REQUEST_URI' => 'http://localhost/user/0bear'
+        ];
+        $request = $auraRouter->match($globals, $server);
+        $this->assertFalse($request);
     }
 
     public function testRouterFileNotExsits()
