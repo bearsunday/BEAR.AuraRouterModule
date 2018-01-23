@@ -1,7 +1,6 @@
 # BEAR.AuraRouterModule
 
 [![Build Status](https://travis-ci.org/bearsunday/BEAR.AuraRouterModule.svg?branch=2.x)](https://travis-ci.org/bearsunday/BEAR.AuraRouterModule)
-
 This is the [Aura Router v3](https://github.com/auraphp/Aura.Router/tree/3.x) Module for BEAR.Sunday.
 
 
@@ -10,7 +9,7 @@ This is the [Aura Router v3](https://github.com/auraphp/Aura.Router/tree/3.x) Mo
 ### Composer install
 
 ```
-composer require bear/aura-router-module ^2.0
+composer require bear/aura-router-module 2.x-dev
 ```
 
 ### Module install
