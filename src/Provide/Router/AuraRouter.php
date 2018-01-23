@@ -8,21 +8,17 @@ namespace BEAR\Package\Provide\Router;
 
 use Aura\Router\Exception\RouteNotFound;
 use Aura\Router\Route;
-use Aura\Router\Router;
+use Aura\Router\RouterContainer;
 use BEAR\Sunday\Annotation\DefaultSchemeHost;
 use BEAR\Sunday\Extension\Router\RouterInterface;
 use BEAR\Sunday\Extension\Router\RouterMatch;
+use Zend\Diactoros\ServerRequestFactory;
 
 class AuraRouter implements RouterInterface
 {
     const METHOD_FILED = '_method';
 
     const METHOD_OVERRIDE_HEADER = 'HTTP_X_HTTP_METHOD_OVERRIDE';
-
-    /**
-     * @var Router
-     */
-    private $router;
 
     /**
      * @var string
@@ -34,17 +30,18 @@ class AuraRouter implements RouterInterface
      */
     private $httpMethodParams;
 
+    private $matcher;
+
+    private $routerContainer;
+
     /**
-     * @param Router                    $router
-     * @param string                    $schemeHost
-     * @param HttpMethodParamsInterface $httpMethodParams
-     *
      * @DefaultSchemeHost("schemeHost")
      */
-    public function __construct(Router $router, $schemeHost, HttpMethodParamsInterface $httpMethodParams)
+    public function __construct(RouterContainer $routerContainer, $schemeHost, HttpMethodParamsInterface $httpMethodParams)
     {
+        $this->routerContainer = $routerContainer;
+        $this->matcher = $routerContainer->getMatcher();
         $this->schemeHost = $schemeHost;
-        $this->router = $router;
         $this->httpMethodParams = $httpMethodParams;
     }
 
@@ -53,14 +50,19 @@ class AuraRouter implements RouterInterface
      */
     public function match(array $globals, array $server)
     {
-        $path = parse_url($server['REQUEST_URI'], PHP_URL_PATH);
-        $route = $this->router->match($path, $server);
+        $psr15request = ServerRequestFactory::fromGlobals(
+            $server,
+            $_GET,
+            $_POST,
+            $_COOKIE,
+            $_FILES
+        );
+        $route = $this->matcher->match($psr15request);
         if ($route === false) {
             return false;
         }
-        $request = $this->getRequest($globals, $server, $route);
 
-        return $request;
+        return $this->getRequest($globals, $server, $route);
     }
 
     /**
@@ -69,7 +71,7 @@ class AuraRouter implements RouterInterface
     public function generate($name, $data)
     {
         try {
-            return $this->router->generate($name, $data);
+            return $this->routerContainer->getGenerator()->generate($name, $data);
         } catch (RouteNotFound $e) {
             return false;
         }
@@ -88,19 +90,13 @@ class AuraRouter implements RouterInterface
     {
         $request = new RouterMatch;
 
-        $params = $route->params;
-        unset($params['action']);
         // path
-        $path = substr($params['path'], 0, 1) === '/' ? $this->schemeHost . $params['path'] : $params['path'];
+        $path = $route->name;
+        $path = substr($path, 0, 1) === '/' ? $this->schemeHost . $path : $path;
         $request->path = $path;
         // query
-        unset($params['path']);
-        list($method, $query) = $this->httpMethodParams->get($server, $globals['_GET'], $globals['_POST']);
-        $params += $query;
-        unset($params[self::METHOD_FILED]);
-        $request->query = $params;
-        // method
-        $request->method = $method;
+        list($request->method, $query) = $this->httpMethodParams->get($server, $globals['_GET'], $globals['_POST']);
+        $request->query = $route->attributes + $query;
 
         return $request;
     }

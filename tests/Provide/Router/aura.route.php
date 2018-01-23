@@ -7,4 +7,4 @@
 
 /* @var $router \BEAR\Package\Provide\Router\AuraRoute */
 
-$router->add('/user', '/user/{id}');
+$router->route('/user', '/user/{id}');

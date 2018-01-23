@@ -1,6 +1,6 @@
 {
     "name": "bear/aura-router-module",
-    "description": "Aura Router v2 module for BEAR.Package",
+    "description": "Aura Router v3 module for BEAR.Package",
     "keywords": [
         "BEAR.Sunday",
         "Router",
@@ -18,13 +18,17 @@
         "zendframework/zend-diactoros": "^1.7"
     },
     "require-dev": {
-        "bear/package": "^1.1",
+        "bear/package": "^1.7",
         "phpunit/phpunit": "^5.7"
-
     },
     "autoload": {
         "psr-4": {
             "BEAR\\Package\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "FakeVendor\\HelloWorld\\": "tests/Fake/fake-app/src"
         }
     },
     "scripts" :{

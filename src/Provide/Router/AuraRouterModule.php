@@ -6,6 +6,8 @@
  */
 namespace BEAR\Package\Provide\Router;
 
+use Aura\Router\Map;
+use Aura\Router\RouterContainer;
 use BEAR\Sunday\Extension\Router\RouterInterface;
 use Ray\Di\AbstractModule;
 use Ray\Di\Scope;
@@ -25,9 +27,11 @@ class AuraRouterModule extends AbstractModule
 
     protected function configure()
     {
+        $this->bind(RouterContainer::class);
         $this->bind()->annotatedWith('aura_router_file')->toInstance($this->routerFile);
         $this->bind(AuraRoute::class)->in(Scope::SINGLETON);
         $this->bind()->annotatedWith('aura_router')->to(AuraRoute::class)->in(Scope::SINGLETON);
+        $this->bind(Map::class)->in(Scope::SINGLETON);
         $this->bind(RouterInterface::class)->annotatedWith('primary_router')->toProvider(AuraRouterProvider::class);
         $this->bind(RouterInterface::class)->toProvider(RouterCollectionProvider::class)->in(Scope::SINGLETON);
     }

@@ -6,24 +6,27 @@
  */
 namespace BEAR\Package\Provide\Router;
 
-use Aura\Router\AbstractSpec;
-use Aura\Router\Router;
+use Aura\Router\Map;
+use Aura\Router\Route;
 
 /**
  * An extended router for BEAR.Sunday
  */
-class AuraRoute extends Router
+class AuraRoute extends Map
 {
+    public function __construct(Route $protoRoute)
+    {
+        parent::__construct($protoRoute);
+    }
+
     /**
      * Adds a route
      *
      * @param string $name
      * @param string $path
-     *
-     * @return AbstractSpec
      */
-    public function route($name, $path)
+    public function route($name, $path, $handler = null)
     {
-        return $this->add($name, $path)->addValues(['path' => $name]);
+        parent::route($name, $path);
     }
 }

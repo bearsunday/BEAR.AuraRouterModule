@@ -7,6 +7,7 @@
 namespace BEAR\Package\Provide\Router;
 
 use Aura\Router\Router;
+use Aura\Router\RouterContainer;
 use BEAR\AppMeta\AbstractAppMeta;
 use BEAR\Package\Provide\Router\Exception\InvalidRouterFilePathException;
 use BEAR\Sunday\Annotation\DefaultSchemeHost;
@@ -16,11 +17,6 @@ use Ray\Di\ProviderInterface;
 
 class AuraRouterProvider implements ProviderInterface
 {
-    /**
-     * @var Router
-     */
-    private $router;
-
     /**
      * @var string
      */
@@ -37,12 +33,18 @@ class AuraRouterProvider implements ProviderInterface
     private $routerFile;
 
     /**
+     * @var RouterContainer
+     */
+    private $routerContainer;
+
+    /**
      * @DefaultSchemeHost("schemeHost")
      */
     public function __construct(AbstractAppMeta $appMeta, $schemeHost)
     {
         $this->schemeHost = $schemeHost;
         $this->appMeta = $appMeta;
+        $this->routerContainer = new RouterContainer;
     }
 
     /**
@@ -62,12 +64,13 @@ class AuraRouterProvider implements ProviderInterface
      */
     public function get()
     {
-        $router = $this->router; // global
+        $router = $this->routerContainer->getMap(); // global
         if (! file_exists($this->routerFile)) {
             throw new InvalidRouterFilePathException($this->routerFile);
         }
+
         include $this->routerFile;
 
-        return new AuraRouter($this->router, $this->schemeHost, new HttpMethodParams);
+        return new AuraRouter($this->routerContainer, $this->schemeHost, new HttpMethodParams);
     }
 }
