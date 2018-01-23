@@ -1,8 +1,8 @@
 # BEAR.AuraRouterModule
 
-[![Build Status](https://travis-ci.org/bearsunday/BEAR.AuraRouterModule.svg?branch=1.x)](https://travis-ci.org/bearsunday/BEAR.AuraRouterModule)
+[![Build Status](https://travis-ci.org/bearsunday/BEAR.AuraRouterModule.svg?branch=2.x)](https://travis-ci.org/bearsunday/BEAR.AuraRouterModule)
 
-This is the [Aura Router (v2)](https://github.com/auraphp/Aura.Router/tree/2.x) Module for BEAR.Sunday.
+This is the [Aura Router v3](https://github.com/auraphp/Aura.Router/tree/3.x) Module for BEAR.Sunday.
 
 
 ## Installation
@@ -10,7 +10,7 @@ This is the [Aura Router (v2)](https://github.com/auraphp/Aura.Router/tree/2.x) 
 ### Composer install
 
 ```
-composer require bear/aura-router-module
+composer require bear/aura-router-module ^2.0
 ```
 
 ### Module install
@@ -28,14 +28,21 @@ class AppModule extends AbstractModule
 }
 ```
 
-### Router config
+### Defining Routes
 
-place router script file at `var/conf/aura.route.php`.
+Place router script file at `var/conf/aura.route.php`.
 
 ```php
 <?php
-/* @var $router \BEAR\Package\Provide\Router\AuraRoute */
-/* @var $schemeHost string */
+/* @var $map \Aura\Router\Map */
 
-$router->route('/weekday', '/weekday/{year}/{month}/{day}');
+$map->route('/weekday', '/weekday/{year}/{month}/{day}');
+$map->get('archive', '/archive{/year,month,day}')
+    ->tokens([
+        'year' => '\d{4}',
+        'month' => '\d{2}',
+        'day' => '\d{2}',
+    ]); // Optional Placeholder Tokens
 ```
+
+See more rules at [Aura.Router v3 documentation](https://github.com/auraphp/Aura.Router/blob/3.x/docs/defining-routes.md).
