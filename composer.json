@@ -14,7 +14,8 @@
         }
     ],
     "require": {
-        "aura/router": "^2.0"
+        "aura/router": "^3.1",
+        "zendframework/zend-diactoros": "^1.7"
     },
     "require-dev": {
         "bear/package": "^1.1",
