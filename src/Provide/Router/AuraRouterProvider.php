@@ -65,7 +65,7 @@ class AuraRouterProvider implements ProviderInterface
      */
     public function get()
     {
-        $router = $this->routerContainer->getMap(); // global
+        $map = $this->routerContainer->getMap(); // global
         if (! file_exists($this->routerFile)) {
             throw new InvalidRouterFilePathException($this->routerFile);
         }

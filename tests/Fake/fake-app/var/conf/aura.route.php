@@ -1,6 +1,6 @@
 <?php
 
-/* @var $router \Aura\Router\Map */
+/* @var $map \Aura\Router\Map */
 
-$router->route('/blog', '/blog/{id}');
-$router->route('/user', '/user/{name}')->tokens(['name' => '[a-z]+']);
+$map->route('/blog', '/blog/{id}');
+$map->route('/user', '/user/{name}')->tokens(['name' => '[a-z]+']);
