@@ -6,6 +6,7 @@
  */
 namespace BEAR\Package\Provide\Router;
 
+use Aura\Router\Map;
 use Aura\Router\Router;
 use Aura\Router\RouterContainer;
 use BEAR\AppMeta\AbstractAppMeta;
@@ -48,12 +49,12 @@ class AuraRouterProvider implements ProviderInterface
     }
 
     /**
-     * @param AuraRoute $router
+     * @param Map $router
      *
      * @Inject
-     * @Named("router=aura_router,routerFile=aura_router_file")
+     * @Named("router=aura_map,routerFile=aura_router_file")
      */
-    public function setRouter($router, $routerFile = null)
+    public function setRouter(Map $router, $routerFile = null)
     {
         $this->router = $router;
         $this->routerFile = ($routerFile === null) ? $this->appMeta->appDir . '/var/conf/aura.route.php' : $routerFile;

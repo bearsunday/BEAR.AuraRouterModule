@@ -29,8 +29,7 @@ class AuraRouterModule extends AbstractModule
     {
         $this->bind(RouterContainer::class);
         $this->bind()->annotatedWith('aura_router_file')->toInstance($this->routerFile);
-        $this->bind(AuraRoute::class)->in(Scope::SINGLETON);
-        $this->bind()->annotatedWith('aura_router')->to(AuraRoute::class)->in(Scope::SINGLETON);
+        $this->bind(Map::class)->annotatedWith('aura_map')->to(Map::class);
         $this->bind(Map::class)->in(Scope::SINGLETON);
         $this->bind(RouterInterface::class)->annotatedWith('primary_router')->toProvider(AuraRouterProvider::class);
         $this->bind(RouterInterface::class)->toProvider(RouterCollectionProvider::class)->in(Scope::SINGLETON);
