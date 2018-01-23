@@ -8,8 +8,9 @@ namespace BEAR\Package\Provide\Router;
 
 use Aura\Router\Map;
 use Aura\Router\RouterContainer;
+use PHPUnit\Framework\TestCase;
 
-class AuraRouterTest extends \PHPUnit_Framework_TestCase
+class AuraRouterTest extends TestCase
 {
     /**
      * @var Map

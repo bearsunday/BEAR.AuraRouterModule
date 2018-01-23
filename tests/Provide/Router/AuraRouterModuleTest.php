@@ -11,9 +11,10 @@ use BEAR\Package\AppMetaModule;
 use BEAR\Package\Provide\Router\Exception\InvalidRouterFilePathException;
 use BEAR\Sunday\Extension\Router\RouterInterface;
 use FakeVendor\HelloWorld\Module\AppModule;
+use PHPUnit\Framework\TestCase;
 use Ray\Di\Injector;
 
-class AuraRouterModuleTest extends \PHPUnit_Framework_TestCase
+class AuraRouterModuleTest extends TestCase
 {
     public static $routerClass;
 
