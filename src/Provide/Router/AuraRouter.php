@@ -78,7 +78,7 @@ class AuraRouter implements RouterInterface
             return false;
         }
 
-        return $this->getRequest($globals, $server, $route);
+        return $this->getRouterMatch($globals, $server, $route);
     }
 
     /**
@@ -102,7 +102,7 @@ class AuraRouter implements RouterInterface
      *
      * @return RouterMatch
      */
-    private function getRequest(array $globals, array $server, Route $route)
+    private function getRouterMatch(array $globals, array $server, Route $route)
     {
         $request = new RouterMatch;
 
