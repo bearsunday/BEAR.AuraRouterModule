@@ -7,7 +7,7 @@
 
 ## Documentation
 
-The package is documneted in English or Japanese.
+The package is documneted in English and Japanese.
  
  * [Router](http://bearsunday.github.io/manuals/1.0/en/router.html)
  * [ルーター](http://bearsunday.github.io/manuals/1.0/ja/router.html)
