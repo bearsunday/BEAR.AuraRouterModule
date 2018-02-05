@@ -107,7 +107,7 @@ class AuraRouter implements RouterInterface
         $request = new RouterMatch;
 
         // path
-        $request->path = $route->name[0] === '/' ? $this->schemeHost . $route->name : $route->name;
+        $request->path = $this->schemeHost . $route->name;
         // method, query
         list($request->method, $query) = $this->httpMethodParams->get($server, $globals['_GET'], $globals['_POST']);
         $request->query = $route->attributes + $query;
