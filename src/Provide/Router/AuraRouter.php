@@ -12,6 +12,7 @@ use Aura\Router\RouterContainer;
 use BEAR\Sunday\Annotation\DefaultSchemeHost;
 use BEAR\Sunday\Extension\Router\RouterInterface;
 use BEAR\Sunday\Extension\Router\RouterMatch;
+use Zend\Diactoros\ServerRequest;
 use Zend\Diactoros\ServerRequestFactory;
 
 class AuraRouter implements RouterInterface
@@ -50,12 +51,16 @@ class AuraRouter implements RouterInterface
      */
     public function match(array $globals, array $server)
     {
-        $psr15request = ServerRequestFactory::fromGlobals(
+        $psr15request = new ServerRequest(
             $server,
-            $globals['_GET'],
-            $globals['_POST'],
             [],
-            []
+            $server['REQUEST_URI'],
+            $server['REQUEST_METHOD'],
+            'php://input',
+            [],
+            [],
+            $globals['_GET'],
+            $globals['_POST']
         );
         $route = $this->matcher->match($psr15request);
         if ($route === false) {
