@@ -102,15 +102,13 @@ class AuraRouter implements RouterInterface
      *
      * @return RouterMatch
      */
-    private function getRouterMatch(array $globals, array $server, Route $route)
+    private function getRouterMatch(array $globals, array $server, Route $route) : RouterMatch
     {
         $request = new RouterMatch;
 
         // path
-        $path = $route->name;
-        $path = $path[0] === '/' ? $this->schemeHost . $path : $path;
-        $request->path = $path;
-        // query
+        $request->path = $route->name[0] === '/' ? $this->schemeHost . $route->name : $route->name;
+        // method, query
         list($request->method, $query) = $this->httpMethodParams->get($server, $globals['_GET'], $globals['_POST']);
         $request->query = $route->attributes + $query;
 
