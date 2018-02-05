@@ -13,7 +13,6 @@ use BEAR\Sunday\Annotation\DefaultSchemeHost;
 use BEAR\Sunday\Extension\Router\RouterInterface;
 use BEAR\Sunday\Extension\Router\RouterMatch;
 use Zend\Diactoros\ServerRequest;
-use Zend\Diactoros\ServerRequestFactory;
 
 class AuraRouter implements RouterInterface
 {
@@ -31,8 +30,14 @@ class AuraRouter implements RouterInterface
      */
     private $httpMethodParams;
 
+    /**
+     * @var \Aura\Router\Matcher
+     */
     private $matcher;
 
+    /**
+     * @var RouterContainer
+     */
     private $routerContainer;
 
     /**
