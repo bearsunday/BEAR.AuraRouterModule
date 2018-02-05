@@ -16,8 +16,14 @@ use Zend\Diactoros\ServerRequest;
 
 class AuraRouter implements RouterInterface
 {
+    /**
+     *  Method over-ride parameter
+     */
     const METHOD_FILED = '_method';
 
+    /**
+     * Method over-ride header filed
+     */
     const METHOD_OVERRIDE_HEADER = 'HTTP_X_HTTP_METHOD_OVERRIDE';
 
     /**
