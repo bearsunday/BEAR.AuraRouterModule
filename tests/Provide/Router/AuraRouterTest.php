@@ -139,4 +139,17 @@ class AuraRouterTest extends TestCase
         $match = $this->auraRouter->match($globals, $server);
         $this->assertFalse($match);
     }
+
+    public function testGenerate()
+    {
+        $this->matcher->route('/calendar', '/calendar/{year}/{month}');
+        $uri = $this->auraRouter->generate('/calendar', ['year' => '8', 'month' => '1']);
+        $this->assertSame('/calendar/8/1', $uri);
+    }
+
+    public function testGenerateFailed()
+    {
+        $uri = $this->auraRouter->generate('/_invalid_', ['year' => '8', 'month' => '1']);
+        $this->assertFalse($uri);
+    }
 }
