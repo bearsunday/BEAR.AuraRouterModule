@@ -49,7 +49,7 @@ class AuraRouter implements RouterInterface
     /**
      * @DefaultSchemeHost("schemeHost")
      */
-    public function __construct(RouterContainer $routerContainer, $schemeHost, HttpMethodParamsInterface $httpMethodParams)
+    public function __construct(RouterContainer $routerContainer, string $schemeHost, HttpMethodParamsInterface $httpMethodParams)
     {
         $this->routerContainer = $routerContainer;
         $this->matcher = $routerContainer->getMatcher();
