@@ -129,6 +129,8 @@ class AuraRouterTest extends TestCase
     public function testInvalidPath()
     {
         $globals = [
+            '_POST' => [],
+            '_GET' => []
         ];
         $server = [
             'REQUEST_METHOD' => 'GET',

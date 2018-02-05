@@ -52,10 +52,10 @@ class AuraRouter implements RouterInterface
     {
         $psr15request = ServerRequestFactory::fromGlobals(
             $server,
-            $_GET,
-            $_POST,
-            $_COOKIE,
-            $_FILES
+            $globals['_GET'],
+            $globals['_POST'],
+            [],
+            []
         );
         $route = $this->matcher->match($psr15request);
         if ($route === false) {
