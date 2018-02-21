@@ -41,11 +41,11 @@ class AuraRouterProvider implements ProviderInterface
     /**
      * @DefaultSchemeHost("schemeHost")
      */
-    public function __construct(AbstractAppMeta $appMeta, $schemeHost)
+    public function __construct(AbstractAppMeta $appMeta, $schemeHost, RouterContainer $routerContainer)
     {
         $this->schemeHost = $schemeHost;
         $this->appMeta = $appMeta;
-        $this->routerContainer = new RouterContainer;
+        $this->routerContainer = $routerContainer;
     }
 
     /**
