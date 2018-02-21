@@ -27,7 +27,7 @@ class AuraRouterModule extends AbstractModule
 
     protected function configure()
     {
-        $this->bind(RouterContainer::class);
+        $this->bind(RouterContainer::class)->in(Scope::SINGLETON);
         $this->bind()->annotatedWith('aura_router_file')->toInstance($this->routerFile);
         $this->bind(Map::class)->annotatedWith('aura_map')->to(Map::class);
         $this->bind(Map::class)->in(Scope::SINGLETON);
