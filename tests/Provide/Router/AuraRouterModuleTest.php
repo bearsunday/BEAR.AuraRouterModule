@@ -88,7 +88,7 @@ class AuraRouterModuleTest extends TestCase
         $module = (new AuraRouterModule('__INVALID', new AppModule));
         $module->install(new AppMetaModule(new AppMeta('FakeVendor\HelloWorld')));
         $injector = new Injector($module);
-        $router = $injector->getInstance(RouterInterface::class);
+        $injector->getInstance(RouterInterface::class);
     }
 
     public function testRouterFileExsits()
