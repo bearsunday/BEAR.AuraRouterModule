@@ -52,9 +52,8 @@ class AuraRouterProvider implements ProviderInterface
      * @Inject
      * @Named("router=aura_map,routerFile=aura_router_file")
      */
-    public function setRouter(Map $router, string $routerFile = null)
+    public function setRouter(string $routerFile = null)
     {
-        $this->router = $router;
         $this->routerFile = ($routerFile === null) ? $this->appMeta->appDir . '/var/conf/aura.route.php' : $routerFile;
         if (! \file_exists($this->routerFile)) {
             throw new InvalidRouterFilePathException($this->routerFile);
