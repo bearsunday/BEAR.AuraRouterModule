@@ -41,7 +41,7 @@ class AuraRouterProvider implements ProviderInterface
     /**
      * @DefaultSchemeHost("schemeHost")
      */
-    public function __construct(AbstractAppMeta $appMeta, $schemeHost, RouterContainer $routerContainer)
+    public function __construct(AbstractAppMeta $appMeta, string $schemeHost, RouterContainer $routerContainer)
     {
         $this->schemeHost = $schemeHost;
         $this->appMeta = $appMeta;
@@ -49,16 +49,14 @@ class AuraRouterProvider implements ProviderInterface
     }
 
     /**
-     * @param Map $router
-     *
      * @Inject
      * @Named("router=aura_map,routerFile=aura_router_file")
      */
-    public function setRouter(Map $router, $routerFile = null)
+    public function setRouter(Map $router, string $routerFile = null)
     {
         $this->router = $router;
         $this->routerFile = ($routerFile === null) ? $this->appMeta->appDir . '/var/conf/aura.route.php' : $routerFile;
-        if (! file_exists($this->routerFile)) {
+        if (! \file_exists($this->routerFile)) {
             throw new InvalidRouterFilePathException($this->routerFile);
         }
     }

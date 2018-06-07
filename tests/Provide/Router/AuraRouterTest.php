@@ -28,7 +28,7 @@ class AuraRouterTest extends TestCase
         $routerContainer = new RouterContainer;
         $map = $routerContainer->getMap();
         $this->map = $map;
-        $routerFile = dirname(__DIR__, 2) . '/Fake/fake-app/var/conf/aura.route.php';
+        $routerFile = \dirname(__DIR__, 2) . '/Fake/fake-app/var/conf/aura.route.php';
         require $routerFile;
         $this->auraRouter = new AuraRouter($routerContainer, 'page://self', new HttpMethodParams, $routerFile);
     }
@@ -159,7 +159,7 @@ class AuraRouterTest extends TestCase
     public function testSerialize()
     {
         /** @var AuraRouter $router */
-        $router = unserialize(serialize($this->auraRouter));
+        $router = \unserialize(\serialize($this->auraRouter));
         $globals = [
             '_GET' => [],
             '_POST' => []

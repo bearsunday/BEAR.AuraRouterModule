@@ -113,12 +113,6 @@ class AuraRouter implements RouterInterface
 
     /**
      * Return resource request
-     *
-     * @param array $globals
-     * @param array $server
-     * @param Route $route
-     *
-     * @return RouterMatch
      */
     private function getRouterMatch(array $globals, array $server, Route $route) : RouterMatch
     {
