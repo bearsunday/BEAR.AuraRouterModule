@@ -65,7 +65,7 @@ class AuraRouter implements RouterInterface
     public function __wakeup()
     {
         /** @global $router */
-        $router = $this->router->getRoutes();
+        $router = $this->router;
         include $this->routerFile;
     }
 

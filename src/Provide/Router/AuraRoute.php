@@ -6,12 +6,13 @@
  */
 namespace BEAR\Package\Provide\Router;
 
-use Aura\Router\Router as AuraRouterRouter;
+use Aura\Router\AbstractSpec;
+use Aura\Router\Router;
 
 /**
  * An extended router for BEAR.Sunday
  */
-class AuraRoute extends AuraRouterRouter
+class AuraRoute extends Router
 {
     /**
      * Adds a route
@@ -19,7 +20,7 @@ class AuraRoute extends AuraRouterRouter
      * @param string $name
      * @param string $path
      *
-     * @return $this
+     * @return AbstractSpec
      */
     public function route($name, $path)
     {

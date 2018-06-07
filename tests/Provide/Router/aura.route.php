@@ -4,5 +4,5 @@
  *
  * @license http://opensource.org/licenses/MIT MIT
  */
-/** @var \Aura\Router\RouteCollection $router */
+/* @var \BEAR\Package\Provide\Router\AuraRoute $router */
 $router->add('/user', '/user/{id}');
