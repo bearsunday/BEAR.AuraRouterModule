@@ -30,7 +30,7 @@ class AuraRouterTest extends \PHPUnit_Framework_TestCase
             new Generator,
             null
         );
-        $routerFile = dirname(__DIR__, 2) . '/Fake/fake-app/var/conf/aura.route.php';
+        $routerFile = dirname(dirname(__DIR__)) . '/Fake/fake-app/var/conf/aura.route.php';
         $this->auraRouter = new AuraRouter($this->routerAdapter, 'page://self', new HttpMethodParams, $routerFile);
     }
 
