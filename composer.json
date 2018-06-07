@@ -26,6 +26,11 @@
             "BEAR\\Package\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "BEAR\\Package\\": "tests/"
+        }
+    },
     "scripts" :{
         "test": ["@cs", "phpunit"],
         "coverage": ["php -dzend_extension=xdebug.so ./vendor/bin/phpunit --coverage-text --coverage-html=build/coverage"],
