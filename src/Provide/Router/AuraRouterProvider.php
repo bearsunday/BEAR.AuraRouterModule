@@ -58,6 +58,9 @@ class AuraRouterProvider implements ProviderInterface
     {
         $this->router = $router;
         $this->routerFile = ($routerFile === null) ? $this->appMeta->appDir . '/var/conf/aura.route.php' : $routerFile;
+        if (! file_exists($this->routerFile)) {
+            throw new InvalidRouterFilePathException($this->routerFile);
+        }
     }
 
     /**
@@ -66,12 +69,9 @@ class AuraRouterProvider implements ProviderInterface
     public function get()
     {
         $map = $this->routerContainer->getMap(); // global
-        if (! file_exists($this->routerFile)) {
-            throw new InvalidRouterFilePathException($this->routerFile);
-        }
 
         include $this->routerFile;
 
-        return new AuraRouter($this->routerContainer, $this->schemeHost, new HttpMethodParams);
+        return new AuraRouter($this->routerContainer, $this->schemeHost, new HttpMethodParams, $this->routerFile);
     }
 }

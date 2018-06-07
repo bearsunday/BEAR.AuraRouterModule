@@ -5,6 +5,6 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
-/* @var $map \Aura\Router\Map */
+/* @var \Aura\Router\Map $map */
 
 $map->route('/user', '/user/{id}');

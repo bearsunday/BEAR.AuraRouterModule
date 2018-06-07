@@ -7,11 +7,13 @@
 namespace BEAR\Package\Provide\Router;
 
 use Aura\Router\Exception\RouteNotFound;
+use Aura\Router\Map;
 use Aura\Router\Route;
 use Aura\Router\RouterContainer;
 use BEAR\Sunday\Annotation\DefaultSchemeHost;
 use BEAR\Sunday\Extension\Router\RouterInterface;
 use BEAR\Sunday\Extension\Router\RouterMatch;
+use Ray\Di\Di\Named;
 use Zend\Diactoros\ServerRequest;
 
 class AuraRouter implements RouterInterface
@@ -47,14 +49,30 @@ class AuraRouter implements RouterInterface
     private $routerContainer;
 
     /**
-     * @DefaultSchemeHost("schemeHost")
+     * @var string
      */
-    public function __construct(RouterContainer $routerContainer, string $schemeHost, HttpMethodParamsInterface $httpMethodParams)
+    private $routerFile;
+
+    /**
+     * @DefaultSchemeHost("schemeHost")
+     * @Named("routerFile=aura_router_file")
+     */
+    public function __construct(RouterContainer $routerContainer, string $schemeHost, HttpMethodParamsInterface $httpMethodParams, string $routerFile)
     {
         $this->routerContainer = $routerContainer;
         $this->matcher = $routerContainer->getMatcher();
         $this->schemeHost = $schemeHost;
         $this->httpMethodParams = $httpMethodParams;
+        $this->routerFile = $routerFile;
+    }
+
+    public function __wakeup()
+    {
+        $this->routerContainer = new RouterContainer;
+        /* @global Map $map */
+        $map = $this->routerContainer->getMap();
+
+        require $this->routerFile;
     }
 
     /**

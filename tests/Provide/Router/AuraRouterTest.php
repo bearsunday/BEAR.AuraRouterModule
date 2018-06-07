@@ -15,7 +15,7 @@ class AuraRouterTest extends TestCase
     /**
      * @var Map
      */
-    private $matcher;
+    private $map;
 
     /**
      * @var AuraRouter
@@ -26,13 +26,16 @@ class AuraRouterTest extends TestCase
     {
         parent::setUp();
         $routerContainer = new RouterContainer;
-        $this->matcher = $routerContainer->getMap();
-        $this->auraRouter = new AuraRouter($routerContainer, 'page://self', new HttpMethodParams);
+        $map = $routerContainer->getMap();
+        $this->map = $map;
+        $routerFile = dirname(__DIR__, 2) . '/Fake/fake-app/var/conf/aura.route.php';
+        require $routerFile;
+        $this->auraRouter = new AuraRouter($routerContainer, 'page://self', new HttpMethodParams, $routerFile);
     }
 
     public function testMatch()
     {
-        $this->matcher->route('/blog', '/blog/{id}');
+        $this->map->route('/blog', '/blog/{id}');
         $globals = [
             '_GET' => [],
             '_POST' => ['title' => 'hello']
@@ -49,7 +52,7 @@ class AuraRouterTest extends TestCase
 
     public function testMatchInvalidToken()
     {
-        $this->matcher->route('/blog', '/blog/{id}')->tokens(['id' => '\d+']);
+        $this->map->route('/blog', '/blog/{id}')->tokens(['id' => '\d+']);
         $globals = [
             '_GET' => [],
             '_POST' => []
@@ -64,7 +67,7 @@ class AuraRouterTest extends TestCase
 
     public function testMatchValidToken()
     {
-        $this->matcher->route('/blog', '/blog/{id}')->tokens(['id' => '\d+']);
+        $this->map->route('/blog', '/blog/{id}')->tokens(['id' => '\d+']);
         $globals = [
             '_GET' => [],
             '_POST' => ['title' => 'hello']
@@ -80,7 +83,7 @@ class AuraRouterTest extends TestCase
 
     public function testMethodOverrideField()
     {
-        $this->matcher->route('/blog', '/blog/{id}');
+        $this->map->route('/blog', '/blog/{id}');
         $globals = [
             '_POST' => [AuraRouter::METHOD_FILED => 'PUT', 'title' => 'hello'],
             '_GET' => []
@@ -96,7 +99,7 @@ class AuraRouterTest extends TestCase
 
     public function testMethodOverrideHeader()
     {
-        $this->matcher->route('/blog', '/blog/{id}');
+        $this->map->route('/blog', '/blog/{id}');
         $globals = [
             '_POST' => [AuraRouter::METHOD_FILED => 'PUT'],
             '_GET' => []
@@ -113,7 +116,7 @@ class AuraRouterTest extends TestCase
 
     public function testNotMatch()
     {
-        $this->matcher->route('/blog', '/blog/{id}');
+        $this->map->route('/blog', '/blog/{id}');
         $globals = [
             '_POST' => [],
             '_GET' => []
@@ -142,7 +145,7 @@ class AuraRouterTest extends TestCase
 
     public function testGenerate()
     {
-        $this->matcher->route('/calendar', '/calendar/{year}/{month}');
+        $this->map->route('/calendar', '/calendar/{year}/{month}');
         $uri = $this->auraRouter->generate('/calendar', ['year' => '8', 'month' => '1']);
         $this->assertSame('/calendar/8/1', $uri);
     }
@@ -151,5 +154,23 @@ class AuraRouterTest extends TestCase
     {
         $uri = $this->auraRouter->generate('/_invalid_', ['year' => '8', 'month' => '1']);
         $this->assertFalse($uri);
+    }
+
+    public function testSerialize()
+    {
+        /** @var AuraRouter $router */
+        $router = unserialize(serialize($this->auraRouter));
+        $globals = [
+            '_GET' => [],
+            '_POST' => []
+        ];
+        $server = [
+            'REQUEST_METHOD' => 'GET',
+            'REQUEST_URI' => 'http://localhost/user/bear'
+        ];
+        $request = $router->match($globals, $server);
+        $this->assertSame('get', $request->method);
+        $this->assertSame('page://self/user', $request->path);
+        $this->assertSame(['name' => 'bear'], $request->query);
     }
 }
