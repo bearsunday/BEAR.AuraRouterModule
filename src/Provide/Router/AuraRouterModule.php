@@ -30,5 +30,6 @@ class AuraRouterModule extends AbstractModule
         $this->bind()->annotatedWith('aura_router')->to(AuraRoute::class)->in(Scope::SINGLETON);
         $this->bind(RouterInterface::class)->annotatedWith('primary_router')->toProvider(AuraRouterProvider::class);
         $this->bind(RouterInterface::class)->toProvider(RouterCollectionProvider::class)->in(Scope::SINGLETON);
+        $this->bind(AuraRouterProvider::class);
     }
 }

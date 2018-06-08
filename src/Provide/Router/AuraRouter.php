@@ -12,6 +12,7 @@ use Aura\Router\Router;
 use BEAR\Sunday\Annotation\DefaultSchemeHost;
 use BEAR\Sunday\Extension\Router\RouterInterface;
 use BEAR\Sunday\Extension\Router\RouterMatch;
+use Ray\Di\Provider;
 
 class AuraRouter implements RouterInterface
 {
@@ -25,6 +26,11 @@ class AuraRouter implements RouterInterface
     private $router;
 
     /**
+     * @var Provider
+     */
+    private $routerProvider;
+
+    /**
      * @var string
      */
     private $schemeHost = 'page://self';
@@ -35,17 +41,32 @@ class AuraRouter implements RouterInterface
     private $httpMethodParams;
 
     /**
+     * @var string
+     */
+    private $routerFile;
+
+    /**
      * @param Router                    $router
      * @param string                    $schemeHost
      * @param HttpMethodParamsInterface $httpMethodParams
+     * @param string                    $routerFile
      *
      * @DefaultSchemeHost("schemeHost")
      */
-    public function __construct(Router $router, $schemeHost, HttpMethodParamsInterface $httpMethodParams)
+    public function __construct(Router $router, $schemeHost, HttpMethodParamsInterface $httpMethodParams, $routerFile)
     {
         $this->schemeHost = $schemeHost;
         $this->router = $router;
         $this->httpMethodParams = $httpMethodParams;
+        $this->routerFile = $routerFile;
+        $this->__wakeup();
+    }
+
+    public function __wakeup()
+    {
+        /** @global $router */
+        $router = $this->router;
+        include $this->routerFile;
     }
 
     /**

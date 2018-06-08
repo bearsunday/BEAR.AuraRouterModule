@@ -9,7 +9,6 @@ namespace BEAR\Package\Provide\Router;
 use Aura\Router\Generator;
 use Aura\Router\RouteCollection;
 use Aura\Router\RouteFactory;
-use Aura\Router\RouterFactory;
 
 class AuraRouterTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,7 +30,8 @@ class AuraRouterTest extends \PHPUnit_Framework_TestCase
             new Generator,
             null
         );
-        $this->auraRouter = new AuraRouter($this->routerAdapter, 'page://self', new HttpMethodParams);
+        $routerFile = dirname(dirname(__DIR__)) . '/Fake/fake-app/var/conf/aura.route.php';
+        $this->auraRouter = new AuraRouter($this->routerAdapter, 'page://self', new HttpMethodParams, $routerFile);
     }
 
     public function testMatch()
@@ -81,7 +81,6 @@ class AuraRouterTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('page://self/blog', $request->path);
         $this->assertSame(['id' => '1', 'title' => 'hello'], $request->query);
     }
-
 
     public function testMethodOverrideField()
     {
@@ -141,5 +140,35 @@ class AuraRouterTest extends \PHPUnit_Framework_TestCase
         ];
         $match = $this->auraRouter->match($globals, $server);
         $this->assertFalse($match);
+    }
+
+    public function routerProvider()
+    {
+        $this->setUp();
+
+        return [
+            [$this->auraRouter],
+            [unserialize(serialize($this->auraRouter))]
+        ];
+    }
+
+    /**
+     * @dataProvider routerProvider
+     */
+    public function testSeriaizetestMatch($router)
+    {
+        /** @var AuraRouter $router */
+        $globals = [
+            '_POST' => [],
+            '_GET' => []
+        ];
+        $server = [
+            'REQUEST_METHOD' => 'GET',
+            'REQUEST_URI' => 'http://localhost/user/10'
+        ];
+        $request = $router->match($globals, $server);
+        $this->assertSame('get', $request->method);
+        $this->assertSame('page://self/user', $request->path);
+        $this->assertSame(['id' => '10'], $request->query);
     }
 }

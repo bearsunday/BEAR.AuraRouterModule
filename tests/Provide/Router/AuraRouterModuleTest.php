@@ -6,7 +6,6 @@
  */
 namespace BEAR\Package\Provide\Router;
 
-use Aura\Router\Router;
 use BEAR\AppMeta\AppMeta;
 use BEAR\Package\AppMetaModule;
 use BEAR\Package\Provide\Router\Exception\InvalidRouterFilePathException;
@@ -27,7 +26,7 @@ class AuraRouterModuleTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(RouterCollection::class, $router);
         $auraRouter = $injector->getInstance(RouterInterface::class, 'primary_router');
         $this->assertInstanceOf(AuraRouter::class, $auraRouter);
-        $this->assertInstanceOf(Router::class, self::$routerClass);
+        $this->assertInstanceOf(AuraRoute::class, self::$routerClass);
     }
 
     public function testRouterFileNotExsits()
