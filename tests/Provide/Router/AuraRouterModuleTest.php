@@ -36,16 +36,16 @@ class AuraRouterModuleTest extends TestCase
     {
         $globals = [
             '_GET' => [],
-            '_POST' => ['title' => 'hello']
+            '_POST' => []
         ];
         $server = [
-            'REQUEST_METHOD' => 'POST',
-            'REQUEST_URI' => 'http://localhost/blog/PC6001?query=value#fragment'
+            'REQUEST_METHOD' => 'GET',
+            'REQUEST_URI' => 'http://localhost/user/bear'
         ];
         $request = $auraRouter->match($globals, $server);
-        $this->assertSame('post', $request->method);
-        $this->assertSame('page://self/blog', $request->path);
-        $this->assertSame(['id' => 'PC6001', 'title' => 'hello'], $request->query);
+        $this->assertSame('get', $request->method);
+        $this->assertSame('page://self/user', $request->path);
+        $this->assertSame(['name' => 'bear'], $request->query);
     }
 
     /**
@@ -88,7 +88,7 @@ class AuraRouterModuleTest extends TestCase
         $module = (new AuraRouterModule('__INVALID', new AppModule));
         $module->install(new AppMetaModule(new AppMeta('FakeVendor\HelloWorld')));
         $injector = new Injector($module);
-        $router = $injector->getInstance(RouterInterface::class);
+        $injector->getInstance(RouterInterface::class);
     }
 
     public function testRouterFileExsits()
