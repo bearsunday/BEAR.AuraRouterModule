@@ -18,7 +18,11 @@ class AuraRouterModule extends AbstractModule
      */
     private $routerFile;
 
-    public function __construct($routerFile = null, AbstractModule $module = null)
+    /**
+     * @param string              $routerFile Router file path
+     * @param AbstractModule|null $module
+     */
+    public function __construct(string $routerFile = '', AbstractModule $module = null)
     {
         $this->routerFile = $routerFile;
         parent::__construct($module);
