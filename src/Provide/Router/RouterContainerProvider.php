@@ -22,11 +22,6 @@ class RouterContainerProvider implements ProviderInterface
     private $schemeHost;
 
     /**
-     * @var string
-     */
-    private $routerFile;
-
-    /**
      * @var RouterContainer
      */
     private $routerContainer;
@@ -43,13 +38,13 @@ class RouterContainerProvider implements ProviderInterface
      * @Inject
      * @Named("routerFile=aura_router_file")
      */
-    public function setRouterContainer(AbstractAppMeta $appMeta, string $routerFile = null)
+    public function setRouterContainer(AbstractAppMeta $appMeta, string $routerFile = '')
     {
         $this->routerContainer = new RouterContainer;
-        $routerFile = ($routerFile === null) ? $appMeta->appDir . '/var/conf/aura.route.php' : $routerFile;
+        $routerFile = ($routerFile === '') ? $appMeta->appDir . '/var/conf/aura.route.php' : $routerFile;
         $map = $this->routerContainer->getMap();
         if (! \file_exists($routerFile)) {
-            throw new InvalidRouterFilePathException($this->routerFile);
+            throw new InvalidRouterFilePathException($routerFile);
         }
         include_once $routerFile;
     }
