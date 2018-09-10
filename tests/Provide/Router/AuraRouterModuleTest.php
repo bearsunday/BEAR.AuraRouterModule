@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the BEAR.AuraRouterModule package.
  *
@@ -20,7 +20,7 @@ class AuraRouterModuleTest extends TestCase
 
     public function testGetInstance()
     {
-        $module = (new AuraRouterModule(null, new AppModule));
+        $module = (new AuraRouterModule('', new AppModule));
         $module->install(new AppMetaModule(new AppMeta('FakeVendor\HelloWorld')));
         $injector = new Injector($module);
         $auraRouter = $injector->getInstance(RouterInterface::class, 'primary_router');

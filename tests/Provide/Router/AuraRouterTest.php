@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the BEAR.AuraRouterModule package.
  *
@@ -30,7 +30,7 @@ class AuraRouterTest extends TestCase
         $this->map = $map;
         $routerFile = \dirname(__DIR__, 2) . '/Fake/fake-app/var/conf/aura.route.php';
         require $routerFile;
-        $this->auraRouter = new AuraRouter($routerContainer, 'page://self', new HttpMethodParams, $routerFile);
+        $this->auraRouter = new AuraRouter($routerContainer, new HttpMethodParams);
     }
 
     public function testMatch()

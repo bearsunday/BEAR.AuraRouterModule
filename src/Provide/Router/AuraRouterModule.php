@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the BEAR.AuraRouterModule package.
  *
@@ -6,7 +6,6 @@
  */
 namespace BEAR\Package\Provide\Router;
 
-use Aura\Router\Map;
 use Aura\Router\RouterContainer;
 use BEAR\Sunday\Extension\Router\RouterInterface;
 use Ray\Di\AbstractModule;
@@ -19,7 +18,11 @@ class AuraRouterModule extends AbstractModule
      */
     private $routerFile;
 
-    public function __construct($routerFile = null, AbstractModule $module = null)
+    /**
+     * @param string              $routerFile Router file path
+     * @param AbstractModule|null $module
+     */
+    public function __construct(string $routerFile = '', AbstractModule $module = null)
     {
         $this->routerFile = $routerFile;
         parent::__construct($module);
@@ -27,11 +30,9 @@ class AuraRouterModule extends AbstractModule
 
     protected function configure()
     {
-        $this->bind(RouterContainer::class)->in(Scope::SINGLETON);
         $this->bind()->annotatedWith('aura_router_file')->toInstance($this->routerFile);
-        $this->bind(Map::class)->annotatedWith('aura_map')->to(Map::class);
-        $this->bind(Map::class)->in(Scope::SINGLETON);
-        $this->bind(RouterInterface::class)->annotatedWith('primary_router')->toProvider(AuraRouterProvider::class);
         $this->bind(RouterInterface::class)->toProvider(RouterCollectionProvider::class)->in(Scope::SINGLETON);
+        $this->bind(RouterContainer::class)->toProvider(RouterContainerProvider::class)->in(Scope::SINGLETON);
+        $this->bind(RouterInterface::class)->annotatedWith('primary_router')->to(AuraRouter::class);
     }
 }

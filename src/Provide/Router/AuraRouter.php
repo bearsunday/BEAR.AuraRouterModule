@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the BEAR.AuraRouterModule package.
  *
@@ -7,7 +7,6 @@
 namespace BEAR\Package\Provide\Router;
 
 use Aura\Router\Exception\RouteNotFound;
-use Aura\Router\Map;
 use Aura\Router\Route;
 use Aura\Router\RouterContainer;
 use BEAR\Sunday\Annotation\DefaultSchemeHost;
@@ -49,30 +48,21 @@ class AuraRouter implements RouterInterface
     private $routerContainer;
 
     /**
-     * @var string
-     */
-    private $routerFile;
-
-    /**
-     * @DefaultSchemeHost("schemeHost")
      * @Named("routerFile=aura_router_file")
      */
-    public function __construct(RouterContainer $routerContainer, string $schemeHost, HttpMethodParamsInterface $httpMethodParams, string $routerFile)
+    public function __construct(RouterContainer $routerContainer, HttpMethodParamsInterface $httpMethodParams)
     {
         $this->routerContainer = $routerContainer;
         $this->matcher = $routerContainer->getMatcher();
-        $this->schemeHost = $schemeHost;
         $this->httpMethodParams = $httpMethodParams;
-        $this->routerFile = $routerFile;
     }
 
-    public function __wakeup()
+    /**
+     * @DefaultSchemeHost("schemeHost")
+     */
+    public function setSchemaHost(string $schemeHost)
     {
-        $this->routerContainer = new RouterContainer;
-        /* @global Map $map */
-        $map = $this->routerContainer->getMap();
-
-        require $this->routerFile;
+        $this->schemeHost = $schemeHost;
     }
 
     /**
