@@ -34,7 +34,7 @@
     },
     "scripts": {
         "test": ["phpunit"],
-        "tests": ["@cs", "phpmd src,tests text ./phpmd.xml", "phpstan analyse -l 4 src tests -c phpstan.neon --no-progress", "@test"],
+        "tests": ["@cs", "phpmd src,tests text ./phpmd.xml", "phpstan analyse -l max src tests -c phpstan.neon --no-progress", "@test"],
         "coverage": ["php -dzend_extension=xdebug.so ./vendor/bin/phpunit --coverage-text --coverage-html=build/coverage"],
         "cs": ["php-cs-fixer fix -v --dry-run", "phpcs --standard=phpcs.xml src;"],
         "cs-fix": ["php-cs-fixer fix -v", "phpcbf src tests"]

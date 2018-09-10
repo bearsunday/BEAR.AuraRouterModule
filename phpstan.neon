@@ -2,3 +2,5 @@ parameters:
     ignoreErrors:
         - '#Undefined variable#'
         - '#Method BEAR\\Package\\Provide\\Router\\AuraRouter::match\(\) should return BEAR\\Sunday\\Extension\\Router\\RouterMatch but returns false.#'
+        - '#expects bool, BEAR\\Sunday\\Extension\\Router\\RouterMatch#'
+        - '#Parameter \#1 \$condition of method PHPUnit\\Framework\\Assert::assertFalse\(\)#'
