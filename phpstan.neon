@@ -1,3 +1,4 @@
 parameters:
     ignoreErrors:
         - '#Undefined variable#'
+        - '#Method BEAR\\Package\\Provide\\Router\\AuraRouter::match\(\) should return BEAR\\Sunday\\Extension\\Router\\RouterMatch but returns false.#'

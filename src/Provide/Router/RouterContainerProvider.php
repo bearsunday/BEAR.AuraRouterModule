@@ -6,8 +6,6 @@
  */
 namespace BEAR\Package\Provide\Router;
 
-use Aura\Router\Map;
-use Aura\Router\Router;
 use Aura\Router\RouterContainer;
 use BEAR\AppMeta\AbstractAppMeta;
 use BEAR\Package\Provide\Router\Exception\InvalidRouterFilePathException;
@@ -16,17 +14,12 @@ use Ray\Di\Di\Inject;
 use Ray\Di\Di\Named;
 use Ray\Di\ProviderInterface;
 
-class AuraRouterProvider implements ProviderInterface
+class RouterContainerProvider implements ProviderInterface
 {
     /**
      * @var string
      */
     private $schemeHost;
-
-    /**
-     * @var AbstractAppMeta
-     */
-    private $appMeta;
 
     /**
      * @var string
@@ -41,23 +34,24 @@ class AuraRouterProvider implements ProviderInterface
     /**
      * @DefaultSchemeHost("schemeHost")
      */
-    public function __construct(AbstractAppMeta $appMeta, string $schemeHost, RouterContainer $routerContainer)
+    public function __construct(string $schemeHost)
     {
         $this->schemeHost = $schemeHost;
-        $this->appMeta = $appMeta;
-        $this->routerContainer = $routerContainer;
     }
 
     /**
      * @Inject
-     * @Named("router=aura_map,routerFile=aura_router_file")
+     * @Named("routerFile=aura_router_file")
      */
-    public function setRouter(string $routerFile = null)
+    public function setRouterContainer(AbstractAppMeta $appMeta, string $routerFile = null)
     {
-        $this->routerFile = ($routerFile === null) ? $this->appMeta->appDir . '/var/conf/aura.route.php' : $routerFile;
-        if (! \file_exists($this->routerFile)) {
+        $this->routerContainer = new RouterContainer;
+        $routerFile = ($routerFile === null) ? $appMeta->appDir . '/var/conf/aura.route.php' : $routerFile;
+        $map = $this->routerContainer->getMap();
+        if (! \file_exists($routerFile)) {
             throw new InvalidRouterFilePathException($this->routerFile);
         }
+        include_once $routerFile;
     }
 
     /**
@@ -65,10 +59,6 @@ class AuraRouterProvider implements ProviderInterface
      */
     public function get()
     {
-        $map = $this->routerContainer->getMap(); // global
-
-        include $this->routerFile;
-
-        return new AuraRouter($this->routerContainer, $this->schemeHost, new HttpMethodParams, $this->routerFile);
+        return $this->routerContainer;
     }
 }
