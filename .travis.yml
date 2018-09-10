@@ -16,7 +16,7 @@ before_script:
   - composer self-update
   - composer update $DEPENDENCIES
   - if [[ $TRAVIS_PHP_VERSION = '7.2' ]]; then COVERAGE="--coverage-clover=coverage.clover"; else phpenv config-rm xdebug.ini; fi
-  - if [[ $TRAVIS_PHP_VERSION = '7.2' ]]; then composer require --dev phpstan/phpstan-shim friendsofphp/php-cs-fixer; fi
+  - if [[ $TRAVIS_PHP_VERSION = '7.2' ]]; then composer require --dev phpstan/phpstan-shim ^0.9 friendsofphp/php-cs-fixer; fi
 script:
   - ./vendor/bin/phpunit $COVERAGE;
   - if [[ $TRAVIS_PHP_VERSION = '7.2' ]]; then vendor/bin/php-cs-fixer fix --verbose --diff --dry-run --config=.php_cs; fi
