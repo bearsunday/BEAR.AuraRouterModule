@@ -46,7 +46,7 @@ class RouterContainerProvider implements ProviderInterface
         if (! \file_exists($routerFile)) {
             throw new InvalidRouterFilePathException($routerFile);
         }
-        include_once $routerFile;
+        require $routerFile;
     }
 
     /**
