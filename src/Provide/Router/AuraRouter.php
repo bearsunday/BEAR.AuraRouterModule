@@ -48,9 +48,6 @@ class AuraRouter implements RouterInterface
      */
     private $routerContainer;
 
-    /**
-     * @Named("routerFile=aura_router_file")
-     */
     public function __construct(RouterContainer $routerContainer, HttpMethodParamsInterface $httpMethodParams)
     {
         $this->routerContainer = $routerContainer;
