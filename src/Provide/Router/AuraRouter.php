@@ -13,7 +13,6 @@ use BEAR\Sunday\Annotation\DefaultSchemeHost;
 use BEAR\Sunday\Extension\Router\RouterInterface;
 use BEAR\Sunday\Extension\Router\RouterMatch;
 use Ray\Di\Di\Inject;
-use Ray\Di\Di\Named;
 use Zend\Diactoros\ServerRequest;
 
 class AuraRouter implements RouterInterface
