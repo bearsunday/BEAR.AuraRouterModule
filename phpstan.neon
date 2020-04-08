@@ -1,3 +1,7 @@
 parameters:
-    ignoreErrors:
-        - '#Undefined variable#'
+  level: max
+  paths:
+    - src
+    - tests
+  ignoreErrors:
+    - '#Undefined variable#'
