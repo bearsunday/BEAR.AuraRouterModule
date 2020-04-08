@@ -9,6 +9,7 @@ namespace BEAR\Package\Provide\Router;
 use BEAR\AppMeta\AppMeta;
 use BEAR\Package\AppMetaModule;
 use BEAR\Package\Provide\Router\Exception\InvalidRouterFilePathException;
+use BEAR\Sunday\Extension\Router\NullMatch;
 use BEAR\Sunday\Extension\Router\RouterInterface;
 use FakeVendor\HelloWorld\Module\AppModule;
 use PHPUnit\Framework\TestCase;
@@ -79,7 +80,7 @@ class AuraRouterModuleTest extends TestCase
             'REQUEST_URI' => 'http://localhost/user/0bear'
         ];
         $request = $auraRouter->match($globals, $server);
-        $this->assertFalse($request);
+        $this->assertInstanceOf(NullMatch::class, $request);
     }
 
     public function testRouterFileNotExsits()

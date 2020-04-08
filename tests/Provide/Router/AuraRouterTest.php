@@ -8,6 +8,7 @@ namespace BEAR\Package\Provide\Router;
 
 use Aura\Router\Map;
 use Aura\Router\RouterContainer;
+use BEAR\Sunday\Extension\Router\NullMatch;
 use PHPUnit\Framework\TestCase;
 
 class AuraRouterTest extends TestCase
@@ -22,7 +23,7 @@ class AuraRouterTest extends TestCase
      */
     private $auraRouter;
 
-    public function setUp()
+    public function setUp() : void
     {
         parent::setUp();
         $routerContainer = new RouterContainer;
@@ -62,7 +63,7 @@ class AuraRouterTest extends TestCase
             'REQUEST_URI' => 'http://localhost/blog/PC6001'
         ];
         $request = $this->auraRouter->match($globals, $server);
-        $this->assertFalse($request);
+        $this->assertInstanceOf(NullMatch::class, $request);
     }
 
     public function testMatchValidToken()
@@ -126,7 +127,7 @@ class AuraRouterTest extends TestCase
             'REQUEST_URI' => 'http://localhost/not_much_uri',
         ];
         $match = $this->auraRouter->match($globals, $server);
-        $this->assertFalse($match);
+        $this->assertInstanceOf(NullMatch::class, $match);
     }
 
     public function testInvalidPath()
@@ -140,7 +141,7 @@ class AuraRouterTest extends TestCase
             'REQUEST_URI' => null
         ];
         $match = $this->auraRouter->match($globals, $server);
-        $this->assertFalse($match);
+        $this->assertInstanceOf(NullMatch::class, $match);
     }
 
     public function testGenerate()
@@ -153,7 +154,7 @@ class AuraRouterTest extends TestCase
     public function testGenerateFailed()
     {
         $uri = $this->auraRouter->generate('/_invalid_', ['year' => '8', 'month' => '1']);
-        $this->assertFalse($uri);
+        $this->assertFalse((bool) $uri);
     }
 
     public function testSerialize()
