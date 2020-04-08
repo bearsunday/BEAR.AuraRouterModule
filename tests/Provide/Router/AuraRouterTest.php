@@ -8,6 +8,7 @@ namespace BEAR\Package\Provide\Router;
 
 use Aura\Router\Map;
 use Aura\Router\RouterContainer;
+use BEAR\Sunday\Extension\Router\NullMatch;
 use PHPUnit\Framework\TestCase;
 
 class AuraRouterTest extends TestCase
@@ -62,7 +63,7 @@ class AuraRouterTest extends TestCase
             'REQUEST_URI' => 'http://localhost/blog/PC6001'
         ];
         $request = $this->auraRouter->match($globals, $server);
-        $this->assertFalse($request);
+        $this->assertInstanceOf(NullMatch::class, $request);
     }
 
     public function testMatchValidToken()
@@ -126,7 +127,7 @@ class AuraRouterTest extends TestCase
             'REQUEST_URI' => 'http://localhost/not_much_uri',
         ];
         $match = $this->auraRouter->match($globals, $server);
-        $this->assertFalse($match);
+        $this->assertInstanceOf(NullMatch::class, $match);
     }
 
     public function testInvalidPath()
@@ -140,7 +141,7 @@ class AuraRouterTest extends TestCase
             'REQUEST_URI' => null
         ];
         $match = $this->auraRouter->match($globals, $server);
-        $this->assertFalse($match);
+        $this->assertInstanceOf(NullMatch::class, $match);
     }
 
     public function testGenerate()

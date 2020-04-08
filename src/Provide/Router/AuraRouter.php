@@ -10,6 +10,7 @@ use Aura\Router\Exception\RouteNotFound;
 use Aura\Router\Route;
 use Aura\Router\RouterContainer;
 use BEAR\Sunday\Annotation\DefaultSchemeHost;
+use BEAR\Sunday\Extension\Router\NullMatch;
 use BEAR\Sunday\Extension\Router\RouterInterface;
 use BEAR\Sunday\Extension\Router\RouterMatch;
 use Laminas\Diactoros\ServerRequest;
@@ -66,7 +67,7 @@ class AuraRouter implements RouterInterface
     /**
      * {@inheritdoc}
      */
-    public function match(array $globals, array $server)
+    public function match(array $globals, array $server) : RouterMatch
     {
         $psr15request = new ServerRequest(
             $server,
@@ -81,7 +82,7 @@ class AuraRouter implements RouterInterface
         );
         $route = $this->matcher->match($psr15request);
         if ($route === false) {
-            return false;
+            return new NullMatch;
         }
 
         return $this->getRouterMatch($globals, $server, $route);
