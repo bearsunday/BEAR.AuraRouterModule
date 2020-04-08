@@ -154,7 +154,7 @@ class AuraRouterTest extends TestCase
     public function testGenerateFailed()
     {
         $uri = $this->auraRouter->generate('/_invalid_', ['year' => '8', 'month' => '1']);
-        $this->assertFalse($uri);
+        $this->assertFalse((bool) $uri);
     }
 
     public function testSerialize()
