@@ -23,7 +23,7 @@ class AuraRouterTest extends TestCase
      */
     private $auraRouter;
 
-    public function setUp()
+    public function setUp() : void
     {
         parent::setUp();
         $routerContainer = new RouterContainer;

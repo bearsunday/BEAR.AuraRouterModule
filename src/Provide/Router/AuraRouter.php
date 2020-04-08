@@ -59,7 +59,7 @@ class AuraRouter implements RouterInterface
      * @DefaultSchemeHost("schemeHost")
      * @Inject
      */
-    public function setSchemaHost(string $schemeHost)
+    public function setSchemaHost(string $schemeHost) : void
     {
         $this->schemeHost = $schemeHost;
     }
