@@ -12,8 +12,8 @@ use Aura\Router\RouterContainer;
 use BEAR\Sunday\Annotation\DefaultSchemeHost;
 use BEAR\Sunday\Extension\Router\RouterInterface;
 use BEAR\Sunday\Extension\Router\RouterMatch;
+use Laminas\Diactoros\ServerRequest;
 use Ray\Di\Di\Inject;
-use Zend\Diactoros\ServerRequest;
 
 class AuraRouter implements RouterInterface
 {
