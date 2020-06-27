@@ -9,6 +9,7 @@ EOF;
 
 $finder = PhpCsFixer\Finder::create()
     ->exclude(['tests/Fake', 'tests/tmp'])
+    ->notPath('tests/Provide/Router/aura.route.php')
     ->in(__DIR__);
 
 return \PhpCsFixer\Config::create()
