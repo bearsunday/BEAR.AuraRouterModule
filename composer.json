@@ -17,11 +17,11 @@
         "php": ">=7.2",
         "aura/router": "^3.1",
         "laminas/laminas-diactoros": "^1.7",
-        "bear/package": "^1.9.7",
         "doctrine/annotations": "^1.7",
         "laminas/laminas-dependency-plugin": "^1.0"
     },
     "require-dev": {
+        "bear/package": "1.x-dev",
         "phpunit/phpunit": "^8.5"
     },
     "autoload": {
