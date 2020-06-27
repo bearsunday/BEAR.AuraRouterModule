@@ -6,8 +6,8 @@
  */
 namespace BEAR\Package\Provide\Router;
 
-use BEAR\AppMeta\AppMeta;
-use BEAR\Package\AppMetaModule;
+use BEAR\AppMeta\Meta;
+use BEAR\Package\Module\AppMetaModule;
 use BEAR\Package\Provide\Router\Exception\InvalidRouterFilePathException;
 use BEAR\Sunday\Extension\Router\NullMatch;
 use BEAR\Sunday\Extension\Router\RouterInterface;
@@ -17,12 +17,10 @@ use Ray\Di\Injector;
 
 class AuraRouterModuleTest extends TestCase
 {
-    public static $routerClass;
-
-    public function testGetInstance()
+    public function testGetInstance() : RouterInterface
     {
         $module = (new AuraRouterModule('', new AppModule));
-        $module->install(new AppMetaModule(new AppMeta('FakeVendor\HelloWorld')));
+        $module->install(new AppMetaModule(new Meta('FakeVendor\HelloWorld')));
         $injector = new Injector($module);
         $auraRouter = $injector->getInstance(RouterInterface::class, 'primary_router');
         $this->assertInstanceOf(AuraRouter::class, $auraRouter);
@@ -33,7 +31,7 @@ class AuraRouterModuleTest extends TestCase
     /**
      * @depends testGetInstance
      */
-    public function testRoute(AuraRouter $auraRouter)
+    public function testRoute(AuraRouter $auraRouter) : void
     {
         $globals = [
             '_GET' => [],
@@ -52,7 +50,7 @@ class AuraRouterModuleTest extends TestCase
     /**
      * @depends testGetInstance
      */
-    public function testRouteWithTokenSuccess(AuraRouter $auraRouter)
+    public function testRouteWithTokenSuccess(AuraRouter $auraRouter) : void
     {
         $globals = [
             '_GET' => [],
@@ -69,7 +67,7 @@ class AuraRouterModuleTest extends TestCase
     /**
      * @depends testGetInstance
      */
-    public function testRouteWithTokenFailure(AuraRouter $auraRouter)
+    public function testRouteWithTokenFailure(AuraRouter $auraRouter) : void
     {
         $globals = [
             '_GET' => [],
@@ -83,19 +81,19 @@ class AuraRouterModuleTest extends TestCase
         $this->assertInstanceOf(NullMatch::class, $request);
     }
 
-    public function testRouterFileNotExsits()
+    public function testRouterFileNotExsits() : void
     {
         $this->expectException(InvalidRouterFilePathException::class);
         $module = (new AuraRouterModule('__INVALID', new AppModule));
-        $module->install(new AppMetaModule(new AppMeta('FakeVendor\HelloWorld')));
+        $module->install(new AppMetaModule(new Meta('FakeVendor\HelloWorld')));
         $injector = new Injector($module);
         $injector->getInstance(RouterInterface::class);
     }
 
-    public function testRouterFileExsits()
+    public function testRouterFileExsits() : void
     {
         $module = (new AuraRouterModule(__DIR__ . '/aura.route.php', new AppModule));
-        $module->install(new AppMetaModule(new AppMeta('FakeVendor\HelloWorld')));
+        $module->install(new AppMetaModule(new Meta('FakeVendor\HelloWorld')));
         $injector = new Injector($module);
         $router = $injector->getInstance(RouterInterface::class);
         $this->assertInstanceOf(RouterCollection::class, $router);

@@ -69,6 +69,7 @@ class AuraRouter implements RouterInterface
      */
     public function match(array $globals, array $server) : RouterMatch
     {
+        \assert(isset($server['REQUEST_METHOD']));
         $psr15request = new ServerRequest(
             $server,
             [],
@@ -102,6 +103,9 @@ class AuraRouter implements RouterInterface
 
     /**
      * Return resource request
+     *
+     * @param array{_GET: array<string, string|array>, _POST: array<string, string|array>} $globals
+     * @param array{REQUEST_METHOD: string}                                                $server
      */
     private function getRouterMatch(array $globals, array $server, Route $route) : RouterMatch
     {

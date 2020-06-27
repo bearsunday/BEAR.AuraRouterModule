@@ -3,5 +3,8 @@ parameters:
   paths:
     - src
     - tests
-  ignoreErrors:
-    - '#Undefined variable#'
+  excludes_analyse:
+    - tests/Fake/*
+    - tests/Provide/Router/aura.route.php
+#  ignoreErrors:
+#    - '#Undefined variable#'

@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 class AuraRouterTest extends TestCase
 {
     /**
-     * @var Map
+     * @var Map<array>
      */
     private $map;
 
@@ -34,7 +34,7 @@ class AuraRouterTest extends TestCase
         $this->auraRouter = new AuraRouter($routerContainer, new HttpMethodParams);
     }
 
-    public function testMatch()
+    public function testMatch() : void
     {
         $this->map->route('/blog', '/blog/{id}');
         $globals = [
@@ -51,7 +51,7 @@ class AuraRouterTest extends TestCase
         $this->assertSame(['id' => 'PC6001', 'title' => 'hello'], $request->query);
     }
 
-    public function testMatchInvalidToken()
+    public function testMatchInvalidToken() : void
     {
         $this->map->route('/blog', '/blog/{id}')->tokens(['id' => '\d+']);
         $globals = [
@@ -66,7 +66,7 @@ class AuraRouterTest extends TestCase
         $this->assertInstanceOf(NullMatch::class, $request);
     }
 
-    public function testMatchValidToken()
+    public function testMatchValidToken() : void
     {
         $this->map->route('/blog', '/blog/{id}')->tokens(['id' => '\d+']);
         $globals = [
@@ -82,7 +82,7 @@ class AuraRouterTest extends TestCase
         $this->assertSame(['id' => '1', 'title' => 'hello'], $request->query);
     }
 
-    public function testMethodOverrideField()
+    public function testMethodOverrideField() : void
     {
         $this->map->route('/blog', '/blog/{id}');
         $globals = [
@@ -98,7 +98,7 @@ class AuraRouterTest extends TestCase
         $this->assertSame(['id' => 'PC6001', 'title' => 'hello'], $request->query);
     }
 
-    public function testMethodOverrideHeader()
+    public function testMethodOverrideHeader() : void
     {
         $this->map->route('/blog', '/blog/{id}');
         $globals = [
@@ -115,7 +115,7 @@ class AuraRouterTest extends TestCase
         $this->assertSame(['id' => 'PC6001'], $request->query);
     }
 
-    public function testNotMatch()
+    public function testNotMatch() : void
     {
         $this->map->route('/blog', '/blog/{id}');
         $globals = [
@@ -130,7 +130,7 @@ class AuraRouterTest extends TestCase
         $this->assertInstanceOf(NullMatch::class, $match);
     }
 
-    public function testInvalidPath()
+    public function testInvalidPath() : void
     {
         $globals = [
             '_POST' => [],
@@ -144,20 +144,20 @@ class AuraRouterTest extends TestCase
         $this->assertInstanceOf(NullMatch::class, $match);
     }
 
-    public function testGenerate()
+    public function testGenerate() : void
     {
         $this->map->route('/calendar', '/calendar/{year}/{month}');
         $uri = $this->auraRouter->generate('/calendar', ['year' => '8', 'month' => '1']);
         $this->assertSame('/calendar/8/1', $uri);
     }
 
-    public function testGenerateFailed()
+    public function testGenerateFailed() : void
     {
         $uri = $this->auraRouter->generate('/_invalid_', ['year' => '8', 'month' => '1']);
         $this->assertFalse((bool) $uri);
     }
 
-    public function testSerialize()
+    public function testSerialize() : void
     {
         /** @var AuraRouter $router */
         $router = \unserialize(\serialize($this->auraRouter));
