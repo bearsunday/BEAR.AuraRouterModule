@@ -1,9 +1,7 @@
-<?php declare(strict_types=1);
-/**
- * This file is part of the BEAR.AuraRouterModule package.
- *
- * @license http://opensource.org/licenses/MIT MIT
- */
+<?php
+
+declare(strict_types=1);
+
 namespace BEAR\Package\Provide\Router;
 
 use Aura\Router\Exception\RouteNotFound;
@@ -25,12 +23,12 @@ class AuraRouter implements RouterInterface
     /**
      *  Method over-ride parameter
      */
-    const METHOD_FILED = '_method';
+    public const METHOD_FILED = '_method';
 
     /**
      * Method over-ride header filed
      */
-    const METHOD_OVERRIDE_HEADER = 'HTTP_X_HTTP_METHOD_OVERRIDE';
+    public const METHOD_OVERRIDE_HEADER = 'HTTP_X_HTTP_METHOD_OVERRIDE';
 
     /**
      * @var string

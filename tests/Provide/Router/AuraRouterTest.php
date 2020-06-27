@@ -1,15 +1,16 @@
-<?php declare(strict_types=1);
-/**
- * This file is part of the BEAR.AuraRouterModule package.
- *
- * @license http://opensource.org/licenses/MIT MIT
- */
+<?php
+
+declare(strict_types=1);
+
 namespace BEAR\Package\Provide\Router;
 
 use Aura\Router\Map;
 use Aura\Router\RouterContainer;
 use BEAR\Sunday\Extension\Router\NullMatch;
+use function dirname;
 use PHPUnit\Framework\TestCase;
+use function serialize;
+use function unserialize;
 
 class AuraRouterTest extends TestCase
 {
@@ -23,13 +24,13 @@ class AuraRouterTest extends TestCase
      */
     private $auraRouter;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
         parent::setUp();
         $routerContainer = new RouterContainer;
         $map = $routerContainer->getMap();
         $this->map = $map;
-        $routerFile = \dirname(__DIR__, 2) . '/Fake/fake-app/var/conf/aura.route.php';
+        $routerFile = dirname(__DIR__, 2) . '/Fake/fake-app/var/conf/aura.route.php';
         require $routerFile;
         $this->auraRouter = new AuraRouter($routerContainer, new HttpMethodParams);
     }
@@ -160,7 +161,7 @@ class AuraRouterTest extends TestCase
     public function testSerialize() : void
     {
         /** @var AuraRouter $router */
-        $router = \unserialize(\serialize($this->auraRouter));
+        $router = unserialize(serialize($this->auraRouter));
         $globals = [
             '_GET' => [],
             '_POST' => []
