@@ -1,9 +1,7 @@
-<?php declare(strict_types=1);
-/**
- * This file is part of the BEAR.AuraRouterModule package.
- *
- * @license http://opensource.org/licenses/MIT MIT
- */
+<?php
+
+declare(strict_types=1);
+
 namespace BEAR\Package\Provide\Router;
 
 use Aura\Router\Exception\RouteNotFound;
@@ -16,17 +14,21 @@ use BEAR\Sunday\Extension\Router\RouterMatch;
 use Laminas\Diactoros\ServerRequest;
 use Ray\Di\Di\Inject;
 
+/**
+ * @psalm-import-type Globals from RouterInterface
+ * @psalm-import-type Server from RouterInterface
+ */
 class AuraRouter implements RouterInterface
 {
     /**
      *  Method over-ride parameter
      */
-    const METHOD_FILED = '_method';
+    public const METHOD_FILED = '_method';
 
     /**
      * Method over-ride header filed
      */
-    const METHOD_OVERRIDE_HEADER = 'HTTP_X_HTTP_METHOD_OVERRIDE';
+    public const METHOD_OVERRIDE_HEADER = 'HTTP_X_HTTP_METHOD_OVERRIDE';
 
     /**
      * @var string
@@ -66,6 +68,8 @@ class AuraRouter implements RouterInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @phpstan-param array{REQUEST_METHOD: string, REQUEST_URI: string} $server
      */
     public function match(array $globals, array $server) : RouterMatch
     {
@@ -102,6 +106,11 @@ class AuraRouter implements RouterInterface
 
     /**
      * Return resource request
+     *
+     * @psalm-param Globals $globals
+     * @psalm-param Server $server
+     * @phpstan-param array<string, mixed> $globals
+     * @phpstan-param array{REQUEST_METHOD: string} $server
      */
     private function getRouterMatch(array $globals, array $server, Route $route) : RouterMatch
     {
@@ -110,7 +119,8 @@ class AuraRouter implements RouterInterface
         // path
         $request->path = $this->schemeHost . $route->name;
         // method, query
-        list($request->method, $query) = $this->httpMethodParams->get($server, $globals['_GET'], $globals['_POST']);
+        [$request->method, $query] = $this->httpMethodParams->get($server, $globals['_GET'], $globals['_POST']);
+        /** @var array<string, mixed> $route->attributes */
         $request->query = $route->attributes + $query;
 
         return $request;

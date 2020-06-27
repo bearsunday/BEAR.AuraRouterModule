@@ -12,7 +12,7 @@ class AppModule extends AbstractModule
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure() : void
     {
         self::$modules[] = get_class($this);
         $this->install(new PackageModule);
