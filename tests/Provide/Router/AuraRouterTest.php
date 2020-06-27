@@ -138,7 +138,7 @@ class AuraRouterTest extends TestCase
         ];
         $server = [
             'REQUEST_METHOD' => 'GET',
-            'REQUEST_URI' => null
+            'REQUEST_URI' => ''
         ];
         $match = $this->auraRouter->match($globals, $server);
         $this->assertInstanceOf(NullMatch::class, $match);

@@ -7,7 +7,7 @@
 namespace BEAR\Package\Provide\Router;
 
 use BEAR\AppMeta\Meta;
-use BEAR\Package\Module\AppMetaModule;
+use BEAR\Package\AppMetaModule;
 use BEAR\Package\Provide\Router\Exception\InvalidRouterFilePathException;
 use BEAR\Sunday\Extension\Router\NullMatch;
 use BEAR\Sunday\Extension\Router\RouterInterface;

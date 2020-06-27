@@ -23,6 +23,8 @@ class RouterContainerProvider implements ProviderInterface
 
     /**
      * @var RouterContainer
+     *
+     * @psalm-suppress PropertyNotSetInConstructor
      */
     private $routerContainer;
 
