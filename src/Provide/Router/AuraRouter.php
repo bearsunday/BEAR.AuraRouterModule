@@ -11,7 +11,7 @@ use BEAR\Sunday\Annotation\DefaultSchemeHost;
 use BEAR\Sunday\Extension\Router\NullMatch;
 use BEAR\Sunday\Extension\Router\RouterInterface;
 use BEAR\Sunday\Extension\Router\RouterMatch;
-use Laminas\Diactoros\ServerRequest;
+use Nyholm\Psr7\ServerRequest;
 use Ray\Di\Di\Inject;
 
 /**
@@ -74,15 +74,12 @@ class AuraRouter implements RouterInterface
     public function match(array $globals, array $server) : RouterMatch
     {
         $psr15request = new ServerRequest(
-            $server,
-            [],
-            $server['REQUEST_URI'],
             $server['REQUEST_METHOD'],
+            $server['REQUEST_URI'],
+            [],
             'php://input',
-            [],
-            [],
-            $globals['_GET'],
-            $globals['_POST']
+            '1.1',
+            $server
         );
         $route = $this->matcher->match($psr15request);
         if ($route === false) {
