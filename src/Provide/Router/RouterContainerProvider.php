@@ -7,7 +7,6 @@ namespace BEAR\Package\Provide\Router;
 use Aura\Router\RouterContainer;
 use BEAR\AppMeta\AbstractAppMeta;
 use BEAR\Package\Provide\Router\Exception\InvalidRouterFilePathException;
-use BEAR\Sunday\Annotation\DefaultSchemeHost;
 use Ray\Di\Di\Inject;
 use Ray\Di\Di\Named;
 use Ray\Di\ProviderInterface;
