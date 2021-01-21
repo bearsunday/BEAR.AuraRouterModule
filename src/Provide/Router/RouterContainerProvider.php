@@ -25,6 +25,7 @@ class RouterContainerProvider implements ProviderInterface
      * @Inject
      * @Named("routerFile=aura_router_file")
      */
+    #[Inject, Named('routerFile=aura_router_file')]
     public function setRouterContainer(AbstractAppMeta $appMeta, string $routerFile = ''): void
     {
         $this->routerContainer = new RouterContainer();
