@@ -11,21 +11,19 @@ use Ray\Di\Scope;
 
 class AuraRouterModule extends AbstractModule
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $routerFile;
 
     /**
      * @param string $routerFile Router file path
      */
-    public function __construct(string $routerFile = '', AbstractModule $module = null)
+    public function __construct(string $routerFile = '', ?AbstractModule $module = null)
     {
         $this->routerFile = $routerFile;
         parent::__construct($module);
     }
 
-    protected function configure() : void
+    protected function configure(): void
     {
         $this->bind()->annotatedWith('aura_router_file')->toInstance($this->routerFile);
         $this->bind(RouterInterface::class)->toProvider(RouterCollectionProvider::class)->in(Scope::SINGLETON);

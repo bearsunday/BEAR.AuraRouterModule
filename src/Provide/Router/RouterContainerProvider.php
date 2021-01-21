@@ -8,21 +8,19 @@ use Aura\Router\RouterContainer;
 use BEAR\AppMeta\AbstractAppMeta;
 use BEAR\Package\Provide\Router\Exception\InvalidRouterFilePathException;
 use BEAR\Sunday\Annotation\DefaultSchemeHost;
-use function file_exists;
 use Ray\Di\Di\Inject;
 use Ray\Di\Di\Named;
 use Ray\Di\ProviderInterface;
 
+use function file_exists;
+
 class RouterContainerProvider implements ProviderInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $schemeHost;
 
     /**
      * @var RouterContainer
-     *
      * @psalm-suppress PropertyNotSetInConstructor
      */
     private $routerContainer;
@@ -39,14 +37,15 @@ class RouterContainerProvider implements ProviderInterface
      * @Inject
      * @Named("routerFile=aura_router_file")
      */
-    public function setRouterContainer(AbstractAppMeta $appMeta, string $routerFile = '') : void
+    public function setRouterContainer(AbstractAppMeta $appMeta, string $routerFile = ''): void
     {
-        $this->routerContainer = new RouterContainer;
-        $routerFile = ($routerFile === '') ? $appMeta->appDir . '/var/conf/aura.route.php' : $routerFile;
+        $this->routerContainer = new RouterContainer();
+        $routerFile = $routerFile === '' ? $appMeta->appDir . '/var/conf/aura.route.php' : $routerFile;
         $map = $this->routerContainer->getMap();
         if (! file_exists($routerFile)) {
             throw new InvalidRouterFilePathException($routerFile);
         }
+
         require $routerFile;
     }
 

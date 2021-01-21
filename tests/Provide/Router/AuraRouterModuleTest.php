@@ -15,9 +15,9 @@ use Ray\Di\Injector;
 
 class AuraRouterModuleTest extends TestCase
 {
-    public function testGetInstance() : RouterInterface
+    public function testGetInstance(): RouterInterface
     {
-        $module = (new AuraRouterModule('', new AppModule));
+        $module = (new AuraRouterModule('', new AppModule()));
         $module->install(new AppMetaModule(new Meta('FakeVendor\HelloWorld')));
         $injector = new Injector($module);
         $auraRouter = $injector->getInstance(RouterInterface::class, 'primary_router');
@@ -29,15 +29,15 @@ class AuraRouterModuleTest extends TestCase
     /**
      * @depends testGetInstance
      */
-    public function testRoute(AuraRouter $auraRouter) : void
+    public function testRoute(AuraRouter $auraRouter): void
     {
         $globals = [
             '_GET' => [],
-            '_POST' => []
+            '_POST' => [],
         ];
         $server = [
             'REQUEST_METHOD' => 'GET',
-            'REQUEST_URI' => 'http://localhost/user/bear'
+            'REQUEST_URI' => 'http://localhost/user/bear',
         ];
         $request = $auraRouter->match($globals, $server);
         $this->assertSame('get', $request->method);
@@ -48,15 +48,15 @@ class AuraRouterModuleTest extends TestCase
     /**
      * @depends testGetInstance
      */
-    public function testRouteWithTokenSuccess(AuraRouter $auraRouter) : void
+    public function testRouteWithTokenSuccess(AuraRouter $auraRouter): void
     {
         $globals = [
             '_GET' => [],
-            '_POST' => []
+            '_POST' => [],
         ];
         $server = [
             'REQUEST_METHOD' => 'POST',
-            'REQUEST_URI' => 'http://localhost/user/bear'
+            'REQUEST_URI' => 'http://localhost/user/bear',
         ];
         $request = $auraRouter->match($globals, $server);
         $this->assertSame(['name' => 'bear'], $request->query);
@@ -65,32 +65,32 @@ class AuraRouterModuleTest extends TestCase
     /**
      * @depends testGetInstance
      */
-    public function testRouteWithTokenFailure(AuraRouter $auraRouter) : void
+    public function testRouteWithTokenFailure(AuraRouter $auraRouter): void
     {
         $globals = [
             '_GET' => [],
-            '_POST' => []
+            '_POST' => [],
         ];
         $server = [
             'REQUEST_METHOD' => 'POST',
-            'REQUEST_URI' => 'http://localhost/user/0bear'
+            'REQUEST_URI' => 'http://localhost/user/0bear',
         ];
         $request = $auraRouter->match($globals, $server);
         $this->assertInstanceOf(NullMatch::class, $request);
     }
 
-    public function testRouterFileNotExsits() : void
+    public function testRouterFileNotExsits(): void
     {
         $this->expectException(InvalidRouterFilePathException::class);
-        $module = (new AuraRouterModule('__INVALID', new AppModule));
+        $module = (new AuraRouterModule('__INVALID', new AppModule()));
         $module->install(new AppMetaModule(new Meta('FakeVendor\HelloWorld')));
         $injector = new Injector($module);
         $injector->getInstance(RouterInterface::class);
     }
 
-    public function testRouterFileExsits() : void
+    public function testRouterFileExsits(): void
     {
-        $module = (new AuraRouterModule(__DIR__ . '/aura.route.php', new AppModule));
+        $module = (new AuraRouterModule(__DIR__ . '/aura.route.php', new AppModule()));
         $module->install(new AppMetaModule(new Meta('FakeVendor\HelloWorld')));
         $injector = new Injector($module);
         $router = $injector->getInstance(RouterInterface::class);
