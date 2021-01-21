@@ -15,7 +15,7 @@ use function unserialize;
 
 class AuraRouterTest extends TestCase
 {
-    /** @var Map */
+    /** @var Map<array<string>> */
     private $map;
 
     /** @var AuraRouter */
