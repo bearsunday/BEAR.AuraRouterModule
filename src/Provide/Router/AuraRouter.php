@@ -51,19 +51,16 @@ class AuraRouter implements RouterInterface
      */
     private $routerContainer;
 
-    public function __construct(RouterContainer $routerContainer, HttpMethodParamsInterface $httpMethodParams)
-    {
-        $this->routerContainer = $routerContainer;
-        $this->matcher = $routerContainer->getMatcher();
-        $this->httpMethodParams = $httpMethodParams;
-    }
-
     /**
      * @DefaultSchemeHost("schemeHost")
      * @Inject
      */
-    public function setSchemaHost(string $schemeHost) : void
+    #[Inject, DefaultSchemeHost('schemeHost')]
+    public function __construct(RouterContainer $routerContainer, HttpMethodParamsInterface $httpMethodParams, string $schemeHost = 'page://self')
     {
+        $this->routerContainer = $routerContainer;
+        $this->matcher = $routerContainer->getMatcher();
+        $this->httpMethodParams = $httpMethodParams;
         $this->schemeHost = $schemeHost;
     }
 
