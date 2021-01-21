@@ -5,15 +5,17 @@ declare(strict_types=1);
 namespace BEAR\Package\Provide\Router;
 
 use Aura\Router\Exception\RouteNotFound;
+use Aura\Router\Matcher;
 use Aura\Router\Route;
 use Aura\Router\RouterContainer;
 use BEAR\Sunday\Annotation\DefaultSchemeHost;
 use BEAR\Sunday\Extension\Router\NullMatch;
 use BEAR\Sunday\Extension\Router\RouterInterface;
 use BEAR\Sunday\Extension\Router\RouterMatch;
-use function file_get_contents;
 use Nyholm\Psr7\ServerRequest;
 use Ray\Di\Di\Inject;
+
+use function file_get_contents;
 
 /**
  * @psalm-import-type Globals from RouterInterface
@@ -31,24 +33,16 @@ class AuraRouter implements RouterInterface
      */
     public const METHOD_OVERRIDE_HEADER = 'HTTP_X_HTTP_METHOD_OVERRIDE';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $schemeHost = 'page://self';
 
-    /**
-     * @var HttpMethodParamsInterface
-     */
+    /** @var HttpMethodParamsInterface */
     private $httpMethodParams;
 
-    /**
-     * @var \Aura\Router\Matcher
-     */
+    /** @var Matcher */
     private $matcher;
 
-    /**
-     * @var RouterContainer
-     */
+    /** @var RouterContainer */
     private $routerContainer;
 
     /**
@@ -69,7 +63,7 @@ class AuraRouter implements RouterInterface
      *
      * @phpstan-param array{REQUEST_METHOD: string, REQUEST_URI: string} $server
      */
-    public function match(array $globals, array $server) : RouterMatch
+    public function match(array $globals, array $server): RouterMatch
     {
         $psr15request = new ServerRequest(
             $server['REQUEST_METHOD'],
@@ -79,9 +73,10 @@ class AuraRouter implements RouterInterface
         );
         $route = $this->matcher->match($psr15request);
         if ($route === false) {
-            return new NullMatch;
+            return new NullMatch();
         }
 
+        /** @psalm-suppress MixedArgumentTypeCoercion -- seems wrongly recognised? */
         return $this->getRouterMatch($globals, $server, $route);
     }
 
@@ -105,16 +100,17 @@ class AuraRouter implements RouterInterface
      * @phpstan-param array<string, mixed> $globals
      * @phpstan-param array{REQUEST_METHOD: string} $server
      */
-    private function getRouterMatch(array $globals, array $server, Route $route) : RouterMatch
+    private function getRouterMatch(array $globals, array $server, Route $route): RouterMatch
     {
-        $request = new RouterMatch;
+        $request = new RouterMatch();
 
         // path
         $request->path = $this->schemeHost . $route->name;
         // method, query
         [$request->method, $query] = $this->httpMethodParams->get($server, $globals['_GET'], $globals['_POST']);
-        /** @var array<string, mixed> $route->attributes */
-        $request->query = $route->attributes + $query;
+        $attributes = $route->attributes;
+        /** @var array<string, mixed> $attributes */
+        $request->query = $attributes + $query;
 
         return $request;
     }
