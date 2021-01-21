@@ -16,22 +16,11 @@ use function file_exists;
 
 class RouterContainerProvider implements ProviderInterface
 {
-    /** @var string */
-    private $schemeHost;
-
     /**
      * @var RouterContainer
      * @psalm-suppress PropertyNotSetInConstructor
      */
     private $routerContainer;
-
-    /**
-     * @DefaultSchemeHost("schemeHost")
-     */
-    public function __construct(string $schemeHost)
-    {
-        $this->schemeHost = $schemeHost;
-    }
 
     /**
      * @Inject
