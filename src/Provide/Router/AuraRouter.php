@@ -82,6 +82,7 @@ class AuraRouter implements RouterInterface
             return new NullMatch;
         }
 
+        /** @psalm-suppress MixedArgumentTypeCoercion -- seems wrongly recognised? */
         return $this->getRouterMatch($globals, $server, $route);
     }
 
@@ -113,8 +114,9 @@ class AuraRouter implements RouterInterface
         $request->path = $this->schemeHost . $route->name;
         // method, query
         [$request->method, $query] = $this->httpMethodParams->get($server, $globals['_GET'], $globals['_POST']);
-        /** @var array<string, mixed> $route->attributes */
-        $request->query = $route->attributes + $query;
+        $attributes = $route->attributes;
+        /** @var array<string, mixed> $attributes */
+        $request->query = $attributes + $query;
 
         return $request;
     }
