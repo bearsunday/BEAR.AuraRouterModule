@@ -14,7 +14,7 @@
         }
     ],
     "require": {
-        "php": "^7.3 | ^8.0",
+        "php": "^7.3 || ^8.0",
         "aura/router": "^3.1",
         "doctrine/annotations": "^1.7",
         "nyholm/psr7": "^1.3",
