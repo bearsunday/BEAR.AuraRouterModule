@@ -57,6 +57,8 @@
     "config": {
         "allow-plugins": {
             "bamarni/composer-bin-plugin": true
-        }
+        },
+        "bamarni-bin.forward-command": true,
+        "bamarni-bin.bin-links": true
     }
 }
