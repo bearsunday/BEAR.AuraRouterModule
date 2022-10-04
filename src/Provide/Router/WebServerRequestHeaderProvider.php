@@ -22,7 +22,11 @@ class WebServerRequestHeaderProvider implements ProviderInterface
         return function_exists('getallheaders') ? getallheaders() : $this->getAllHeaders();
     }
 
-    /** @return array<string, string> */
+    /**
+     * @return array<string, string>
+     *
+     * @SuppressWarnings(PHPMD.Superglobals)
+     */
     private function getAllHeaders(): array
     {
         $headers = [];
