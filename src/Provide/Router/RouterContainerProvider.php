@@ -13,6 +13,7 @@ use Ray\Di\ProviderInterface;
 
 use function file_exists;
 
+/** @implements ProviderInterface<RouterContainer> */
 class RouterContainerProvider implements ProviderInterface
 {
     /**

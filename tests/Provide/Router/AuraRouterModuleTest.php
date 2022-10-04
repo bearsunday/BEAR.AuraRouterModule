@@ -26,9 +26,7 @@ class AuraRouterModuleTest extends TestCase
         return $auraRouter;
     }
 
-    /**
-     * @depends testGetInstance
-     */
+    /** @depends testGetInstance */
     public function testRoute(AuraRouter $auraRouter): void
     {
         $globals = [
@@ -45,9 +43,7 @@ class AuraRouterModuleTest extends TestCase
         $this->assertSame(['name' => 'bear'], $request->query);
     }
 
-    /**
-     * @depends testGetInstance
-     */
+    /** @depends testGetInstance */
     public function testRouteWithTokenSuccess(AuraRouter $auraRouter): void
     {
         $globals = [
@@ -62,9 +58,7 @@ class AuraRouterModuleTest extends TestCase
         $this->assertSame(['name' => 'bear'], $request->query);
     }
 
-    /**
-     * @depends testGetInstance
-     */
+    /** @depends testGetInstance */
     public function testRouteWithTokenFailure(AuraRouter $auraRouter): void
     {
         $globals = [
