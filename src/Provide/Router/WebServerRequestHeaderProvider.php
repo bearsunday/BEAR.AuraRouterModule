@@ -1,0 +1,37 @@
+<?php
+
+declare(strict_types=1);
+
+namespace BEAR\Package\Provide\Router;
+
+use Ray\Di\ProviderInterface;
+
+use function function_exists;
+use function getallheaders;
+use function str_replace;
+use function strtolower;
+use function substr;
+use function ucwords;
+
+/** @implements ProviderInterface<array<string, string>> */
+class WebServerRequestHeaderProvider implements ProviderInterface
+{
+    /** @return array<string, string> */
+    public function get(): array
+    {
+        return function_exists('getallheaders') ? getallheaders() : $this->getAllHeaders();
+    }
+
+    /** @return array<string, string> */
+    private function getAllHeaders(): array
+    {
+        $headers = [];
+        foreach ($_SERVER as $name => $value) {
+            if (substr($name, 0, 5) === 'HTTP_') {
+                $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+            }
+        }
+
+        return $headers;
+    }
+}
