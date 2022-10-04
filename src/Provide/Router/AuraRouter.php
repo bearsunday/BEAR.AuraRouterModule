@@ -53,7 +53,7 @@ class AuraRouter implements RouterInterface
      * @param ProviderInterface<array<string, string>> $headerProvider
      *
      * @DefaultSchemeHost("schemeHost")
-     * @Header("headerProvider")
+     * @RequestHeaders("headerProvider")
      */
     #[DefaultSchemeHost('schemeHost'), RequestHeaders('headerProvider')]
     public function __construct(
