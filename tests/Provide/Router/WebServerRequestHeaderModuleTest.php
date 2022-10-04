@@ -15,6 +15,11 @@ use Ray\Di\Injector;
 
 class WebServerRequestHeaderModuleTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        $_SERVER['HTTP_X_FOO'] = 'foo';
+    }
+
     public function testGetInstance(): RouterInterface
     {
         $module = (new AuraRouterModule('', new AppModule()));
