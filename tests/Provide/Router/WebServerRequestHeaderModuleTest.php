@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace BEAR\Package\Provide\Router;
 
 use BEAR\AppMeta\Meta;
-use BEAR\Package\AppMetaModule;
+use BEAR\Package\Module\AppMetaModule;
 use BEAR\Package\Provide\Router\Exception\InvalidRouterFilePathException;
 use BEAR\Sunday\Extension\Router\NullMatch;
 use BEAR\Sunday\Extension\Router\RouterInterface;
@@ -13,12 +13,18 @@ use FakeVendor\HelloWorld\Module\AppModule;
 use PHPUnit\Framework\TestCase;
 use Ray\Di\Injector;
 
-class AuraRouterModuleTest extends TestCase
+class WebServerRequestHeaderModuleTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        $_SERVER['HTTP_X_FOO'] = 'foo';
+    }
+
     public function testGetInstance(): RouterInterface
     {
         $module = (new AuraRouterModule('', new AppModule()));
         $module->install(new AppMetaModule(new Meta('FakeVendor\HelloWorld')));
+        $module->install(new RequestHeaderModule());
         $injector = new Injector($module);
         $auraRouter = $injector->getInstance(RouterInterface::class, 'primary_router');
         $this->assertInstanceOf(AuraRouter::class, $auraRouter);
