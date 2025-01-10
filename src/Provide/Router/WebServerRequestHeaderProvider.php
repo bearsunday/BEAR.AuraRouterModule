@@ -10,6 +10,7 @@ use function function_exists;
 use function getallheaders;
 use function is_scalar;
 use function str_replace;
+use function str_starts_with;
 use function strtolower;
 use function substr;
 use function ucwords;
@@ -32,7 +33,7 @@ class WebServerRequestHeaderProvider implements ProviderInterface
     {
         $headers = [];
         foreach ($_SERVER as $name => $value) {
-            if (substr($name, 0, 5) === 'HTTP_' && is_scalar($value)) {
+            if (str_starts_with($name, 'HTTP_') && is_scalar($value)) {
                 $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = (string) $value;
             }
         }
