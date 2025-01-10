@@ -18,7 +18,12 @@ use function ucwords;
 /** @implements ProviderInterface<array<string, string>> */
 class WebServerRequestHeaderProvider implements ProviderInterface
 {
-    /** @return array<string, string> */
+    /**
+     * @return array<string, string>
+     *
+     * @psalm-suppress MixedInferredReturnType
+     * @psalm-suppress MixedReturnStatement
+     */
     public function get(): array
     {
         return function_exists('getallheaders') ? getallheaders() : $this->getAllHeaders();
