@@ -37,18 +37,12 @@ class AuraRouter implements RouterInterface
     /** @var Matcher */
     private $matcher;
 
-    /**
-     * @param ProviderInterface<array<string, string>> $headerProvider
-     *
-     * @DefaultSchemeHost("schemeHost")
-     * @RequestHeaders("headerProvider")
-     */
-    #[DefaultSchemeHost('schemeHost'), RequestHeaders('headerProvider')]
+    /** @param ProviderInterface<array<string, string>> $headerProvider */
     public function __construct(
         private readonly RouterContainer $routerContainer,
         private readonly HttpMethodParamsInterface $httpMethodParams,
-        private readonly string $schemeHost = 'page://self',
-        private readonly ?ProviderInterface $headerProvider = null
+        #[DefaultSchemeHost('schemeHost')] private readonly string $schemeHost = 'page://self',
+        #[RequestHeaders('headerProvider')] private readonly ?ProviderInterface $headerProvider = null
     ) {
         $this->matcher = $this->routerContainer->getMatcher();
     }
