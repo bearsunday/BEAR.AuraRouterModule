@@ -26,13 +26,13 @@ class WebServerRequestHeaderProvider implements ProviderInterface
      */
     public function get(): array
     {
-        return function_exists('getallheaders') ? getallheaders() : $this->getAllHeaders();
+        return function_exists('getallheaders') ? getallheaders() : $this->getAllHeaders(); // @phpstan-ignore-line
     }
 
     /**
      * @return array<string, string>
      *
-     * @SuppressWarnings(PHPMD.Superglobals)
+     * @SuppressWarnings("PHPMD.Superglobals")
      */
     private function getAllHeaders(): array
     {
