@@ -14,7 +14,7 @@ class AppModule extends AbstractModule
      */
     protected function configure() : void
     {
-        self::$modules[] = get_class($this);
+        self::$modules[] = static::class;
         $this->install(new PackageModule);
     }
 }

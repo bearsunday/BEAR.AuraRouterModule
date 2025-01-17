@@ -11,13 +11,9 @@ use Ray\Di\Scope;
 
 class AuraRouterModule extends AbstractModule
 {
-    /** @var string */
-    private $routerFile;
-
     /** @param string $routerFile Router file path */
-    public function __construct(string $routerFile = '', ?AbstractModule $module = null)
+    public function __construct(private readonly string $routerFile = '', ?AbstractModule $module = null)
     {
-        $this->routerFile = $routerFile;
         parent::__construct($module);
     }
 

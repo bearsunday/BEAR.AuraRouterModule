@@ -34,39 +34,19 @@ class AuraRouter implements RouterInterface
      */
     public const METHOD_OVERRIDE_HEADER = 'HTTP_X_HTTP_METHOD_OVERRIDE';
 
-    /** @var string */
-    private $schemeHost = 'page://self';
-
-    /** @var HttpMethodParamsInterface */
-    private $httpMethodParams;
-
     /** @var Matcher */
     private $matcher;
 
-    /** @var RouterContainer */
-    private $routerContainer;
-
-    /** @var ProviderInterface<array<string, string>>|null */
-    private $headerProvider;
-
-    /**
-     * @param ProviderInterface<array<string, string>> $headerProvider
-     *
-     * @DefaultSchemeHost("schemeHost")
-     * @RequestHeaders("headerProvider")
-     */
-    #[DefaultSchemeHost('schemeHost'), RequestHeaders('headerProvider')]
+    /** @param ProviderInterface<array<string, string>> $headerProvider */
+    #[DefaultSchemeHost('schemeHost')]
+    #[RequestHeaders('headerProvider')]
     public function __construct(
-        RouterContainer $routerContainer,
-        HttpMethodParamsInterface $httpMethodParams,
-        string $schemeHost = 'page://self',
-        ?ProviderInterface $headerProvider = null
+        private readonly RouterContainer $routerContainer,
+        private readonly HttpMethodParamsInterface $httpMethodParams,
+        private readonly string $schemeHost = 'page://self',
+        private readonly ?ProviderInterface $headerProvider = null
     ) {
-        $this->routerContainer = $routerContainer;
-        $this->matcher = $routerContainer->getMatcher();
-        $this->httpMethodParams = $httpMethodParams;
-        $this->schemeHost = $schemeHost;
-        $this->headerProvider = $headerProvider;
+        $this->matcher = $this->routerContainer->getMatcher();
     }
 
     /**
@@ -98,7 +78,7 @@ class AuraRouter implements RouterInterface
     {
         try {
             return $this->routerContainer->getGenerator()->generate($name, $data);
-        } catch (RouteNotFound $e) {
+        } catch (RouteNotFound) {
             return false;
         }
     }

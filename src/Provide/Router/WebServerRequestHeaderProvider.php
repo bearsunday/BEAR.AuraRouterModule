@@ -10,6 +10,7 @@ use function function_exists;
 use function getallheaders;
 use function is_scalar;
 use function str_replace;
+use function str_starts_with;
 use function strtolower;
 use function substr;
 use function ucwords;
@@ -17,22 +18,27 @@ use function ucwords;
 /** @implements ProviderInterface<array<string, string>> */
 class WebServerRequestHeaderProvider implements ProviderInterface
 {
-    /** @return array<string, string> */
+    /**
+     * @return array<string, string>
+     *
+     * @psalm-suppress MixedInferredReturnType
+     * @psalm-suppress MixedReturnStatement
+     */
     public function get(): array
     {
-        return function_exists('getallheaders') ? getallheaders() : $this->getAllHeaders();
+        return function_exists('getallheaders') ? getallheaders() : $this->getAllHeaders(); // @phpstan-ignore-line
     }
 
     /**
      * @return array<string, string>
      *
-     * @SuppressWarnings(PHPMD.Superglobals)
+     * @SuppressWarnings("PHPMD.Superglobals")
      */
     private function getAllHeaders(): array
     {
         $headers = [];
         foreach ($_SERVER as $name => $value) {
-            if (substr($name, 0, 5) === 'HTTP_' && is_scalar($value)) {
+            if (str_starts_with($name, 'HTTP_') && is_scalar($value)) {
                 $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = (string) $value;
             }
         }
