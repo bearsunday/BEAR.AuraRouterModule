@@ -15,7 +15,7 @@ use function file_exists;
 /** @implements ProviderInterface<RouterContainer> */
 class RouterContainerProvider implements ProviderInterface
 {
-    private RouterContainer $routerContainer;
+    private readonly RouterContainer $routerContainer;
 
     public function __construct(AbstractAppMeta $appMeta, #[Named('aura_router_file')] string $routerFile = '')
     {
