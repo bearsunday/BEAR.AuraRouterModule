@@ -17,7 +17,7 @@ class AuraRouterModuleTest extends TestCase
 {
     public function testGetInstance(): RouterInterface
     {
-        $module = (new AuraRouterModule('', new AppModule()));
+        $module = new AuraRouterModule('', new AppModule());
         $module->install(new AppMetaModule(new Meta('FakeVendor\HelloWorld')));
         $injector = new Injector($module);
         $auraRouter = $injector->getInstance(RouterInterface::class, 'primary_router');
@@ -76,7 +76,7 @@ class AuraRouterModuleTest extends TestCase
     public function testRouterFileNotExsits(): void
     {
         $this->expectException(InvalidRouterFilePathException::class);
-        $module = (new AuraRouterModule('__INVALID', new AppModule()));
+        $module = new AuraRouterModule('__INVALID', new AppModule());
         $module->install(new AppMetaModule(new Meta('FakeVendor\HelloWorld')));
         $injector = new Injector($module);
         $injector->getInstance(RouterInterface::class);
@@ -84,7 +84,7 @@ class AuraRouterModuleTest extends TestCase
 
     public function testRouterFileExsits(): void
     {
-        $module = (new AuraRouterModule(__DIR__ . '/aura.route.php', new AppModule()));
+        $module = new AuraRouterModule(__DIR__ . '/aura.route.php', new AppModule());
         $module->install(new AppMetaModule(new Meta('FakeVendor\HelloWorld')));
         $injector = new Injector($module);
         $router = $injector->getInstance(RouterInterface::class);

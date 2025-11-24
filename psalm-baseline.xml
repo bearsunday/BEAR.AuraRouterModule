@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.27.0@faf106e717c37b8c81721845dba9de3d8deed8ff">
+<files psalm-version="4.30.0@d0bc6e25d89f649e4f36a534f330f8bb4643dd69">
+  <file src="src/Provide/Router/AuraRouterModule.php">
+    <InvalidArgument occurrences="5">
+      <code>'aura_router_file'</code>
+      <code>'primary_router'</code>
+      <code>RouterContainer::class</code>
+      <code>RouterInterface::class</code>
+      <code>RouterInterface::class</code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Provide/Router/RequestHeaderModule.php">
+    <InvalidArgument occurrences="2">
+      <code>ProviderInterface::class</code>
+      <code>RequestHeaders::class</code>
+    </InvalidArgument>
+  </file>
   <file src="src/Provide/Router/RouterContainerProvider.php">
     <UnusedVariable occurrences="1">
       <code>$map</code>
     </UnusedVariable>
   </file>
   <file src="src/Provide/Router/WebServerRequestHeaderProvider.php">
-    <MixedArgumentTypeCoercion occurrences="2">
-      <code>$name</code>
-      <code>$name</code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="2">
-      <code>$headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))]</code>
-      <code>$value</code>
-    </MixedAssignment>
-    <MixedReturnTypeCoercion occurrences="4">
-      <code>$headers</code>
-      <code>array&lt;string, string&gt;</code>
+    <MixedReturnTypeCoercion occurrences="2">
       <code>array&lt;string, string&gt;</code>
       <code>function_exists('getallheaders') ? getallheaders() : $this-&gt;getAllHeaders()</code>
     </MixedReturnTypeCoercion>
