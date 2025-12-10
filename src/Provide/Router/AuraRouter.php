@@ -8,13 +8,11 @@ use Aura\Router\Exception\RouteNotFound;
 use Aura\Router\Matcher;
 use Aura\Router\Route;
 use Aura\Router\RouterContainer;
-use BEAR\Package\Provide\Router\Annotation\RequestHeaders; // phpcs:ignore
 use BEAR\Sunday\Annotation\DefaultSchemeHost;
 use BEAR\Sunday\Extension\Router\NullMatch;
 use BEAR\Sunday\Extension\Router\RouterInterface;
 use BEAR\Sunday\Extension\Router\RouterMatch;
 use Nyholm\Psr7\ServerRequest;
-use Ray\Di\ProviderInterface;
 
 use function file_get_contents;
 
@@ -37,12 +35,11 @@ class AuraRouter implements RouterInterface
     /** @var Matcher */
     private $matcher;
 
-    /** @param ProviderInterface<array<string, string>> $headerProvider */
     public function __construct(
         private readonly RouterContainer $routerContainer,
         private readonly HttpMethodParamsInterface $httpMethodParams,
         #[DefaultSchemeHost('schemeHost')] private readonly string $schemeHost = 'page://self',
-        #[RequestHeaders('headerProvider')] private readonly ?ProviderInterface $headerProvider = null
+        private readonly ?WebServerRequestHeaderProvider $headerProvider = null,
     ) {
         $this->matcher = $this->routerContainer->getMatcher();
     }

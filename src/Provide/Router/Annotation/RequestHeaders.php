@@ -13,6 +13,7 @@ use Ray\Di\Di\Qualifier;
  * @Target("METHOD")
  * @Qualifier
  * @NamedArgumentConstructor
+ * @deprecated 3.0.0 This attribute is no longer used. WebServerRequestHeaderProvider is now directly injected into AuraRouter.
  */
 #[Attribute(Attribute::TARGET_METHOD | Attribute::TARGET_PARAMETER), Qualifier]
 final class RequestHeaders
