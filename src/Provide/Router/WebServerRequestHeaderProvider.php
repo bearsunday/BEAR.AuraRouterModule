@@ -22,11 +22,10 @@ class WebServerRequestHeaderProvider implements ProviderInterface
     public function get(): array
     {
         if (function_exists('getallheaders')) {
-            /** @var array<string, string>|false $headers */
+            /** @var array<string, string> $headers */
             $headers = getallheaders();
-            if ($headers !== false) {
-                return $headers;
-            }
+
+            return $headers;
         }
 
         return $this->getAllHeaders();
