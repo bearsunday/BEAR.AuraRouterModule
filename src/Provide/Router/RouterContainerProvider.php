@@ -21,7 +21,7 @@ class RouterContainerProvider implements ProviderInterface
     {
         $this->routerContainer = new RouterContainer();
         $routerFile = $routerFile === '' ? $appMeta->appDir . '/var/conf/aura.route.php' : $routerFile;
-        //  $map is required in $routerFile
+        // $map is used in $routerFile scope via require
         $map = $this->routerContainer->getMap();
         if (! file_exists($routerFile)) {
             throw new InvalidRouterFilePathException($routerFile);

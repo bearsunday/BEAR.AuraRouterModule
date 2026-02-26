@@ -1,19 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
-  <file src="src/Provide/Router/AuraRouter.php">
-    <MoreSpecificImplementedParamType>
-      <code><![CDATA[$server]]></code>
-    </MoreSpecificImplementedParamType>
-  </file>
   <file src="src/Provide/Router/RouterContainerProvider.php">
     <UnusedVariable>
       <code><![CDATA[$map]]></code>
     </UnusedVariable>
-  </file>
-  <file src="src/Provide/Router/WebServerRequestHeaderProvider.php">
-    <MixedReturnTypeCoercion>
-      <code><![CDATA[array<string, string>]]></code>
-      <code><![CDATA[function_exists('getallheaders') ? getallheaders() : $this->getAllHeaders()]]></code>
-    </MixedReturnTypeCoercion>
   </file>
 </files>

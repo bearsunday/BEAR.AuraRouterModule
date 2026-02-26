@@ -18,15 +18,18 @@ use function ucwords;
 /** @implements ProviderInterface<array<string, string>> */
 class WebServerRequestHeaderProvider implements ProviderInterface
 {
-    /**
-     * @return array<string, string>
-     *
-     * @psalm-suppress MixedInferredReturnType
-     * @psalm-suppress MixedReturnStatement
-     */
+    /** @return array<string, string> */
     public function get(): array
     {
-        return function_exists('getallheaders') ? getallheaders() : $this->getAllHeaders(); // @phpstan-ignore-line
+        if (function_exists('getallheaders')) {
+            /** @var array<string, string>|false $headers */
+            $headers = getallheaders();
+            if ($headers !== false) {
+                return $headers;
+            }
+        }
+
+        return $this->getAllHeaders();
     }
 
     /**
