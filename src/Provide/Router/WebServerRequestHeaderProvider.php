@@ -43,8 +43,8 @@ class WebServerRequestHeaderProvider implements ProviderInterface
     {
         $headers = [];
         foreach ($_SERVER as $name => $value) {
-            if (str_starts_with($name, 'HTTP_') && is_scalar($value)) {
-                $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = (string) $value;
+            if (str_starts_with((string) $name, 'HTTP_') && is_scalar($value)) {
+                $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr((string) $name, 5)))))] = (string) $value;
             }
         }
 
