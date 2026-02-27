@@ -21,12 +21,15 @@ class WebServerRequestHeaderProvider implements ProviderInterface
     /** @return array<string, string> */
     public function get(): array
     {
+        // @codeCoverageIgnoreStart
         if (function_exists('getallheaders')) {
             /** @var array<string, string> $headers */
             $headers = getallheaders();
 
             return $headers;
         }
+
+        // @codeCoverageIgnoreEnd
 
         return $this->getAllHeaders();
     }
