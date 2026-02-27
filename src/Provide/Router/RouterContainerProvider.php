@@ -17,12 +17,12 @@ class RouterContainerProvider implements ProviderInterface
 {
     private readonly RouterContainer $routerContainer;
 
+    /** @psalm-suppress UnusedVariable */
     public function __construct(AbstractAppMeta $appMeta, #[Named('aura_router_file')] string $routerFile = '')
     {
         $this->routerContainer = new RouterContainer();
         $routerFile = $routerFile === '' ? $appMeta->appDir . '/var/conf/aura.route.php' : $routerFile;
-        //  $map is required in $routerFile
-        $map = $this->routerContainer->getMap();
+        $map = $this->routerContainer->getMap(); // used in $routerFile scope via require
         if (! file_exists($routerFile)) {
             throw new InvalidRouterFilePathException($routerFile);
         }

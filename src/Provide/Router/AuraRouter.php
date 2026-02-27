@@ -50,6 +50,7 @@ class AuraRouter implements RouterInterface
     /**
      * {@inheritdoc}
      *
+     * @psalm-param Server $server
      * @phpstan-param array{REQUEST_METHOD: string, REQUEST_URI: string} $server
      */
     public function match(array $globals, array $server): RouterMatch

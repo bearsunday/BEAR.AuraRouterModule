@@ -23,7 +23,6 @@ class AuraRouterTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
         $routerContainer = new RouterContainer();
         $map = $routerContainer->getMap();
         $this->map = $map;
