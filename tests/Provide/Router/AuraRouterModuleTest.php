@@ -5,20 +5,22 @@ declare(strict_types=1);
 namespace BEAR\Package\Provide\Router;
 
 use BEAR\AppMeta\Meta;
-use BEAR\Package\AppMetaModule;
+use BEAR\Package\Module;
 use BEAR\Package\Provide\Router\Exception\InvalidRouterFilePathException;
 use BEAR\Sunday\Extension\Router\NullMatch;
 use BEAR\Sunday\Extension\Router\RouterInterface;
-use FakeVendor\HelloWorld\Module\AppModule;
 use PHPUnit\Framework\TestCase;
+use Ray\Di\AbstractModule;
 use Ray\Di\Injector;
 
 class AuraRouterModuleTest extends TestCase
 {
+    private const APP_NAME = 'FakeVendor\HelloWorld';
+    private const CONTEXT = 'app';
+
     public function testGetInstance(): RouterInterface
     {
-        $module = new AuraRouterModule('', new AppModule());
-        $module->install(new AppMetaModule(new Meta('FakeVendor\HelloWorld')));
+        $module = new AuraRouterModule('', $this->appModule());
         $injector = new Injector($module);
         $auraRouter = $injector->getInstance(RouterInterface::class, 'primary_router');
         $this->assertInstanceOf(AuraRouter::class, $auraRouter);
@@ -76,18 +78,21 @@ class AuraRouterModuleTest extends TestCase
     public function testRouterFileNotExsits(): void
     {
         $this->expectException(InvalidRouterFilePathException::class);
-        $module = new AuraRouterModule('__INVALID', new AppModule());
-        $module->install(new AppMetaModule(new Meta('FakeVendor\HelloWorld')));
+        $module = new AuraRouterModule('__INVALID', $this->appModule());
         $injector = new Injector($module);
         $injector->getInstance(RouterInterface::class);
     }
 
     public function testRouterFileExsits(): void
     {
-        $module = new AuraRouterModule(__DIR__ . '/aura.route.php', new AppModule());
-        $module->install(new AppMetaModule(new Meta('FakeVendor\HelloWorld')));
+        $module = new AuraRouterModule(__DIR__ . '/aura.route.php', $this->appModule());
         $injector = new Injector($module);
         $router = $injector->getInstance(RouterInterface::class);
         $this->assertInstanceOf(RouterCollection::class, $router);
+    }
+
+    private function appModule(): AbstractModule
+    {
+        return (new Module())(new Meta(self::APP_NAME), self::CONTEXT);
     }
 }
